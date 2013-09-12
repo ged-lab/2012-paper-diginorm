@@ -81,16 +81,20 @@ genome-reads.fa.keep.abundfilt.keep: genome-reads.fa.keep.abundfilt
 	${KHMER}/scripts/normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savehash genome-reads.fa.keep.abundfilt.keep.kh genome-reads.fa.keep.abundfilt
 
 random.x.genome-reads.fa.overlap: genome-reads.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa genome-reads.fa random.x.genome-reads.fa.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.ht genome-reads.fa random.x.genome-reads.fa.overlap
 
 random.x.genome-reads.fa.keep.overlap: genome-reads.fa.keep
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa genome-reads.fa.keep random.x.genome-reads.fa.keep.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.ht genome-reads.fa.keep random.x.genome-reads.fa.keep.overlap
 
 random.x.genome-reads.fa.keep.abundfilt.overlap: genome-reads.fa.keep.abundfilt
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa genome-reads.fa.keep.abundfilt random.x.genome-reads.fa.keep.abundfilt.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.ht genome-reads.fa.keep.abundfilt random.x.genome-reads.fa.keep.abundfilt.overlap
 
 random.x.genome-reads.fa.keep.abundfilt.keep.overlap: genome-reads.fa.keep.abundfilt.keep
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa genome-reads.fa.keep.abundfilt.keep random.x.genome-reads.fa.keep.abundfilt.keep.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.ht genome-reads.fa.keep.abundfilt.keep random.x.genome-reads.fa.keep.abundfilt.keep.overlap
 
 transcript-reads.fa.kh: transcript-reads.fa
 	${KHMER}/scripts/load-into-counting.py -k 20 -N 4 -x 1e8 transcript-reads.fa.kh transcript-reads.fa
@@ -107,16 +111,20 @@ transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
 transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
 
 transcripts.x.transcript-reads.fa.overlap: transcript-reads.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa transcript-reads.fa transcripts.x.transcript-reads.fa.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa transcripts.x.transcript-reads.fa.overlap
 
 transcripts.x.transcript-reads.fa.keep.overlap: transcript-reads.fa.keep
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa transcript-reads.fa.keep transcripts.x.transcript-reads.fa.keep.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa.keep transcripts.x.transcript-reads.fa.keep.overlap
 
 transcripts.x.transcript-reads.fa.keep.abundfilt.overlap: transcript-reads.fa.keep.abundfilt
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa transcript-reads.fa.keep.abundfilt transcripts.x.transcript-reads.fa.keep.abundfilt.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa.keep.abundfilt transcripts.x.transcript-reads.fa.keep.abundfilt.overlap
 
 transcripts.x.transcript-reads.fa.keep.abundfilt.keep.overlap: transcript-reads.fa.keep.abundfilt.keep
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa transcript-reads.fa.keep.abundfilt.keep transcripts.x.transcript-reads.fa.keep.abundfilt.keep.overlap
+	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa.keep.abundfilt.keep transcripts.x.transcript-reads.fa.keep.abundfilt.keep.overlap
 
 random.1.ebwt: random.fa
 	bowtie-build random.fa random
@@ -151,10 +159,10 @@ genome-reads.fa.counts.pickle: genome-reads.fa.map
 	python mapping-cov-3.py random.fa genome-reads.fa.map genome-reads.fa.counts.pickle
 
 genome-reads.fa.keep.map: random.1.ebwt
-	bowtie -f -a --best --strata random genome-reads.fa.keep > genome-reads.fa.keep.map
+	bowtie -q -a --best --strata random genome-reads.fa.keep > genome-reads.fa.keep.map
 
 genome-reads.fa.keep.abundfilt.keep.map:
-	bowtie -f -a --best --strata random genome-reads.fa.keep.abundfilt.keep > genome-reads.fa.keep.abundfilt.keep.map
+	bowtie -q -a --best --strata random genome-reads.fa.keep.abundfilt.keep > genome-reads.fa.keep.abundfilt.keep.map
 
 genome-reads.fa.map.cov: genome-reads.fa.map
 	python mapping-genome-cov-3.py random.fa genome-reads.fa.map genome-reads.fa.map.cov
@@ -188,7 +196,7 @@ ecoli_ref-5m.fastq.sorted.bam: ecoli_ref-5m.fastq.bam
 
 
 ecoli_ref.fastq.bz2.keep.map: ecoli_ref.fastq.bz2.keep
-	bowtie -f -a --best --strata ecoliMG1655 ecoli_ref.fastq.bz2.keep > ecoli_ref.fastq.bz2.keep.map
+	bowtie -q -a --best --strata ecoliMG1655 ecoli_ref.fastq.bz2.keep > ecoli_ref.fastq.bz2.keep.map
 
 ecoli_ref.fastq.bz2.keep.map.cov: ecoli_ref.fastq.bz2.keep.map
 	python mapping-genome-cov-3.py ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.map ecoli_ref.fastq.bz2.keep.map.cov
@@ -268,7 +276,7 @@ mouse-5m.fq.keep: mouse-5m.fq
 	python $(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1e9 mouse-5m.fq
 
 mouse-5m.fq.keep.map: mouse-5m.fq.keep
-	bowtie -f -a --best --strata trinity-300 mouse-5m.fq.keep > mouse-5m.fq.keep.map
+	bowtie -q -a --best --strata trinity-300 mouse-5m.fq.keep > mouse-5m.fq.keep.map
 
 mouse-5m.fq.keep.map.cov: mouse-5m.fq.keep.map
 	python mapping-genome-cov-3.py trinity-300.fa mouse-5m.fq.keep.map mouse-5m.fq.keep.map.cov
