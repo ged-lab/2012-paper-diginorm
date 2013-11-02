@@ -2,7 +2,7 @@
 Running the diginorm paper script pipeline
 ==========================================
 
-:Date: Oct 28, 2013
+:Date: Aug 4th, 2014
 
 Here are some brief notes on how to run the pipeline for our paper on digital
 normalization on an Amazon EC2 rental instance.
@@ -10,77 +10,53 @@ normalization on an Amazon EC2 rental instance.
 The instructions below will reproduce all of the figures in the paper,
 and will then compile the paper from scratch using the new figures.
 
-(Note that you can also start with ami-61885608, which has all the
-below software installed.)
-
-.. and the EC2 snapshot snap-09d7f173 has all
-.. of the data on it.  If you mount that volume and then cp -r everything
-.. into /mnt, you will have all the software and files below installed in
-.. the right place to run the pipline 'make' near the bottom.)
-
-.. put in sofwtare version .tgz download?
-.. https://github.com/ctb/khmer/tarball/2012-paper-diginorm
 
 Starting up a machine and installing software
 ---------------------------------------------
 
-First, start up an EC2 instance using starcluster::
+First, start up an EC2 instance with the AWS console. Be sure to choose an
+Ubuntu 14.04 instance. The c3.2xlarge instance size will work just fine, but
+do not choose a smaller instance than this.
 
- starcluster start -o -s 1 -i m2.xlarge -n ami-999d49f0 pipeline
+Make sure you edit your security groups to include port 22 (SSH) and port 
+80 (HTTP) ; you'll need the first one to log in, and the second one to 
+connect to the ipython notebook.
 
-You can also do this via the AWS console; just use ami-999d49f0, and
-start an instance with 16gb or more of memory.
+Once you ssh in, set yourself up to run as root.::
 
-Make sure that port 22 (SSH) and port 80 (HTTP) are open; you'll need
-the first one to log in, and the second one to connect to the ipython
-notebook.
+ sudo su
 
-Now, log in! ::
+Next, we are going to set the instance up with many of the software 
+packages we will need::
 
- starcluster sshmaster pipeline
 
-(or just ssh in however you would normally do it.)
+curl::
+wget http://curl.haxx.se/download/curl-7.37.1.tar.gz
+tar xzf curl-7.37.1.tar.gz
 
-Once you're logged in, you'll need to install both 'screed' and 'khmer'.
-In this case we're going to use the versions tagged for the paper sub.::
+git::
+wget https://git-core.googlecode.com/files/git-1.8.1.2.tar.gz
+tar -zxf git-1.8.1.2.tar.gz
+cd git-1.8.1.2
 
- cd /usr/local/share
+gcc:
 
- git clone https://github.com/ged-lab/screed.git
- cd screed
- git checkout 2012-paper-diginorm
- python setup.py install
- cd ..
 
- git clone https://github.com/ged-lab/khmer.git
- cd khmer
- git checkout 2012-paper-diginorm
- make test
- cd ..
+ apt-get --yes install gcc make g++ python-dev unzip \
+            default-jre pkg-config libncurses5-dev r-base-core \
+            r-cran-gplots python-matplotlib sysstat bowtie \
+            texlive-latex-recommended mummer python-pip ipython \
+            ipython-notebook bioperl ncbi-blast+
 
- echo export PYTHONPATH=/usr/local/share/khmer >> ~/.bashrc
- echo 'export PATH=$PATH:/usr/local/share/khmer/scripts' >> ~/.bashrc
- echo 'export PATH=$PATH:/usr/local/share/khmer/sandbox' >> ~/.bashrc
- source ~/.bashrc
 
-OK, now that these are both built, let's install a few other things: some
-software, the latest version of ipython notebook (you need 0.13dev, or later)::
+Now, you'll need to install the version of 'khmer' that the
+paper is currently using.::
+ 
+ easy_install -U setuptools
+ pip install khmer==1.1
 
- git clone https://github.com/ipython/ipython.git
- cd ipython
- python setup.py install
-
- pip install -U pyzmq
-
-and bowtie::
-
- cd /mnt
-
- curl -L -O http://sourceforge.net/projects/bowtie-bio/files/bowtie/0.12.7/bowtie-0.12.7-linux-x86_64.zip/download
- unzip download
- cp bowtie-0.12.7/bowtie{,-build} /usr/local/bin
-
-and Velvet::
+and Velvet. (We need to do this the old fashioned way to enable large k-mer
+sizes)::
 
  cd /root
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
@@ -89,12 +65,7 @@ and Velvet::
  make MAXKMERLENGTH=51
  cp velvet? /usr/local/bin
 
-Finally, upgrade the latex install with a few recommended packages, and
-add mummer::
-
- apt-get install -y texlive-latex-recommended mummer
-
-OK, now all your software is installed, hurrah!
+OK, now we have installed almost all of the software we need, hurrah!
 
 Running the pipeline
 --------------------
@@ -109,10 +80,12 @@ sets::
  curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
  tar xzf pipeline-data-new.tar.gz
 
-Now go into the pipeline directory and run the pipeline.  This will take
-24-36 hours, so you might want to do it in 'screen' (see http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
+Now go into the pipeline directory and install Prokka & run the pipeline.  This
+will take 24-36 hours, so you might want to do it in 'screen' (see
+http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
  cd pipeline
+ bash install-prokka.sh
  make KHMER=/usr/local/share/khmer
 
 Once it successfully completes, copy the data over to the ../data/ directory::

@@ -172,10 +172,10 @@ genome-reads.fa.counts.pickle: genome-reads.fa.map
 	python mapping-cov-3.py random.fa genome-reads.fa.map genome-reads.fa.counts.pickle
 
 genome-reads.fa.keep.map: random.1.ebwt
-	bowtie -q -a --best --strata random genome-reads.fa.keep > genome-reads.fa.keep.map
+	bowtie -f -a --best --strata random genome-reads.fa.keep > genome-reads.fa.keep.map
 
 genome-reads.fa.keep.abundfilt.keep.map:
-	bowtie -q -a --best --strata random genome-reads.fa.keep.abundfilt.keep > genome-reads.fa.keep.abundfilt.keep.map
+	bowtie -f -a --best --strata random genome-reads.fa.keep.abundfilt.keep > genome-reads.fa.keep.abundfilt.keep.map
 
 genome-reads.fa.map.cov: genome-reads.fa.map
 	python mapping-genome-cov-3.py random.fa genome-reads.fa.map genome-reads.fa.map.cov
