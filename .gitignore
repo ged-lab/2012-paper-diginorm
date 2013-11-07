@@ -109,3 +109,4 @@ pipeline/mouse-5m.fq.keep
 pipeline/read15.ranks
 pipeline/read2.ranks
 pipeline/read3.ranks
+pipeline-data-new.tar.gz

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 import sys
-sys.path.insert(0, '/u/t/dev/blastkit/lib')
+#sys.path.insert(0, '/u/t/dev/blastkit/lib')
 import blastparser
 
 import screed
