@@ -2,7 +2,7 @@
 Running the diginorm paper script pipeline
 ==========================================
 
-:Date: Oct 28, 2013
+:Date: Jun 25, 2014
 
 Here are some brief notes on how to run the pipeline for our paper on digital
 normalization on an Amazon EC2 rental instance.
@@ -46,29 +46,13 @@ the latest version of ipython notebook (you need 0.13dev, or later) ::
  apt-get install ipython
  apt-get install ipython-notebook
 
-Now, you'll need to install both 'screed' and 'khmer'.
-In this case we're going to use the versions tagged for the paper sub.::
+Now, you'll need to install the version of 'khmer' that the
+paper is currently using.::
+ 
+ easy_install -U setuptools
+ pip install khmer==1.1,
 
- cd /usr/local/share
- git clone https://github.com/ged-lab/screed.git
- cd screed
- git checkout master
- python setup.py install
- cd ..
-
- git clone https://github.com/ged-lab/khmer.git
- cd khmer
- git checkout v1.1
- make test
- cd ..
-
- echo export PYTHONPATH=/usr/local/share/khmer >> ~/.bashrc
- echo 'export PATH=$PATH:/usr/local/share/khmer/scripts' >> ~/.bashrc
- echo 'export PATH=$PATH:/usr/local/share/khmer/sandbox' >> ~/.bashrc
- source ~/.bashrc
-
-OK, now that these are both built, let's install a few other things: some
-software, ::
+OK, now let's install a few other things: some software, ::
 
 and bowtie::
 

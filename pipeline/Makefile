@@ -1,5 +1,3 @@
-KHMER=~/dev/khmer
-
 all: genome-reads.fa.kh genome-reads.fa.keep \
 	random.x.genome-reads.fa.overlap \
 	random.x.genome-reads.fa.keep.overlap \
@@ -82,62 +80,62 @@ endbias-transcripts.txt: transcript-reads.fa.keep.abundfilt.keep.kh
 	python find-missing-kmers.py transcript-reads.fa.keep.abundfilt.keep.kh transcripts.fa endbias-transcripts.txt
 
 genome-reads.fa.kh: genome-reads.fa
-	${KHMER}/scripts/load-into-counting.py -k 20 -N 4 -x 1e8 genome-reads.fa.kh genome-reads.fa
+	load-into-counting.py -k 20 -N 4 -x 1e8 genome-reads.fa.kh genome-reads.fa
 
 genome-reads.fa.keep: genome-reads.fa
-	${KHMER}/scripts/normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable genome-reads.fa.keep.kh genome-reads.fa
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable genome-reads.fa.keep.kh genome-reads.fa
 
 genome-reads.fa.keep.abundfilt: genome-reads.fa.keep
-	${KHMER}/scripts/filter-abund.py genome-reads.fa.keep.kh genome-reads.fa.keep
+	filter-abund.py genome-reads.fa.keep.kh genome-reads.fa.keep
 
 genome-reads.fa.keep.abundfilt.keep: genome-reads.fa.keep.abundfilt
-	${KHMER}/scripts/normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable genome-reads.fa.keep.abundfilt.keep.kh genome-reads.fa.keep.abundfilt
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable genome-reads.fa.keep.abundfilt.keep.kh genome-reads.fa.keep.abundfilt
 
 random.x.genome-reads.fa.overlap: genome-reads.fa
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa random.x.genome-reads.fa.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa random.x.genome-reads.fa.overlap
 
 random.x.genome-reads.fa.keep.overlap: genome-reads.fa.keep
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep random.x.genome-reads.fa.keep.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep random.x.genome-reads.fa.keep.overlap
 
 random.x.genome-reads.fa.keep.abundfilt.overlap: genome-reads.fa.keep.abundfilt
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep.abundfilt random.x.genome-reads.fa.keep.abundfilt.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep.abundfilt random.x.genome-reads.fa.keep.abundfilt.overlap
 
 random.x.genome-reads.fa.keep.abundfilt.keep.overlap: genome-reads.fa.keep.abundfilt.keep
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep.abundfilt.keep random.x.genome-reads.fa.keep.abundfilt.keep.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep.abundfilt.keep random.x.genome-reads.fa.keep.abundfilt.keep.overlap
 
 transcript-reads.fa.kh: transcript-reads.fa
-	${KHMER}/scripts/load-into-counting.py -k 20 -N 4 -x 1e8 transcript-reads.fa.kh transcript-reads.fa
+	load-into-counting.py -k 20 -N 4 -x 1e8 transcript-reads.fa.kh transcript-reads.fa
 
 transcript-reads.fa.keep: transcript-reads.fa
-	${KHMER}/scripts/normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable transcript-reads.fa.keep.kh transcript-reads.fa
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable transcript-reads.fa.keep.kh transcript-reads.fa
 
 transcript-reads.fa.keep.abundfilt: transcript-reads.fa.keep
-	${KHMER}/scripts/filter-abund.py transcript-reads.fa.keep.kh transcript-reads.fa.keep
+	filter-abund.py transcript-reads.fa.keep.kh transcript-reads.fa.keep
 
 transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
-	${KHMER}/scripts/normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable transcript-reads.fa.keep.abundfilt.keep.kh transcript-reads.fa.keep.abundfilt
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable transcript-reads.fa.keep.abundfilt.keep.kh transcript-reads.fa.keep.abundfilt
 
 transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
 
 transcripts.x.transcript-reads.fa.overlap: transcript-reads.fa
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa transcripts.x.transcript-reads.fa.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.pt transcript-reads.fa transcripts.x.transcript-reads.fa.overlap
 
 transcripts.x.transcript-reads.fa.keep.overlap: transcript-reads.fa.keep
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa.keep transcripts.x.transcript-reads.fa.keep.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.pt transcript-reads.fa.keep transcripts.x.transcript-reads.fa.keep.overlap
 
 transcripts.x.transcript-reads.fa.keep.abundfilt.overlap: transcript-reads.fa.keep.abundfilt
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa.keep.abundfilt transcripts.x.transcript-reads.fa.keep.abundfilt.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.pt transcript-reads.fa.keep.abundfilt transcripts.x.transcript-reads.fa.keep.abundfilt.overlap
 
 transcripts.x.transcript-reads.fa.keep.abundfilt.keep.overlap: transcript-reads.fa.keep.abundfilt.keep
-	python ${KHMER}/scripts/load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
-	python ${KHMER}/scripts/count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.ht transcript-reads.fa.keep.abundfilt.keep transcripts.x.transcript-reads.fa.keep.abundfilt.keep.overlap
+	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 transcripts.fa transcripts.fa
+	count-overlap.py -k 20 -N 4 -x 1e8 transcripts.fa.pt transcript-reads.fa.keep.abundfilt.keep transcripts.x.transcript-reads.fa.keep.abundfilt.keep.overlap
 
 random.1.ebwt: random.fa
 	bowtie-build random.fa random
@@ -187,7 +185,7 @@ ecoliMG1655.1.ebwt:
 	bowtie-build ecoliMG1655.fa ecoliMG1655
 
 ecoli_ref-5m.fastq.kh: ecoli_ref-5m.fastq
-	${KHMER}/scripts/load-into-counting.py -k 20 -N 4 -x 5e8 ecoli_ref-5m.fastq.kh ecoli_ref-5m.fastq
+	load-into-counting.py -k 20 -N 4 -x 5e8 ecoli_ref-5m.fastq.kh ecoli_ref-5m.fastq
 
 ecoli_ref-5m.fastq.map: ecoli_ref-5m.fastq ecoliMG1655.1.ebwt
 	bowtie -q -a --best --strata ecoliMG1655 ecoli_ref-5m.fastq > ecoli_ref-5m.fastq.map
@@ -226,7 +224,7 @@ genome-reads.fa.keep.sorted.bam: genome-reads.fa.keep.bam
 
 
 genome-reads.fa.counts.kmer: genome-reads.fa.kh
-	python ${KHMER}/scripts/count-median.py genome-reads.fa.kh genome-reads.fa genome-reads.fa.counts.kmer
+	count-median.py genome-reads.fa.kh genome-reads.fa genome-reads.fa.counts.kmer
 
 genome-reads.fa.counts.cmp: genome-reads.fa.counts.pickle  genome-reads.fa.counts.kmer
 	python compare-map-med.py genome-reads.fa.counts.pickle genome-reads.fa.counts.kmer > genome-reads.fa.counts.cmp
@@ -242,7 +240,7 @@ transcript-reads.fa.counts.pickle: transcript-reads.fa.map
 	python mapping-cov-3.py transcripts.fa transcript-reads.fa.map transcript-reads.fa.counts.pickle
 
 transcript-reads.fa.counts.kmer: transcript-reads.fa.kh
-	python ${KHMER}/scripts/count-median.py transcript-reads.fa.kh transcript-reads.fa transcript-reads.fa.counts.kmer
+	count-median.py transcript-reads.fa.kh transcript-reads.fa transcript-reads.fa.counts.kmer
 
 transcript-reads.fa.counts.cmp: transcript-reads.fa.counts.pickle  transcript-reads.fa.counts.kmer
 	python compare-map-med.py transcript-reads.fa.counts.pickle transcript-reads.fa.counts.kmer > transcript-reads.fa.counts.cmp
@@ -251,7 +249,7 @@ ecoli_ref-5m.fastq.counts.pickle: ecoli_ref-5m.fastq.map
 	python mapping-cov-3.py ecoliMG1655.fa ecoli_ref-5m.fastq.map ecoli_ref-5m.fastq.counts.pickle
 
 ecoli_ref-5m.fastq.counts.kmer: ecoli_ref-5m.fastq.kh
-	python ${KHMER}/scripts/count-median.py ecoli_ref-5m.fastq.kh ecoli_ref-5m.fastq ecoli_ref-5m.fastq.counts.kmer
+	count-median.py ecoli_ref-5m.fastq.kh ecoli_ref-5m.fastq ecoli_ref-5m.fastq.counts.kmer
 
 ecoli_ref-5m.fastq.counts.cmp: ecoli_ref-5m.fastq.counts.pickle ecoli_ref-5m.fastq.counts.kmer
 	python compare-map-med.py ecoli_ref-5m.fastq.counts.pickle ecoli_ref-5m.fastq.counts.kmer > ecoli_ref-5m.fastq.counts.cmp
@@ -265,10 +263,10 @@ mouse-5m.fq.map: mouse-5m.fq trinity-300.1.ebwt
 	bowtie -q -a --best --strata trinity-300 mouse-5m.fq > mouse-5m.fq.map
 
 mouse-5m.fq.kh: mouse-5m.fq
-	${KHMER}/scripts/load-into-counting.py -k 20 -N 4 -x 1e9 mouse-5m.fq.kh mouse-5m.fq
+	load-into-counting.py -k 20 -N 4 -x 1e9 mouse-5m.fq.kh mouse-5m.fq
 
 mouse-5m.fq.counts.kmer: mouse-5m.fq.kh
-	${KHMER}/scripts/count-median.py mouse-5m.fq.kh mouse-5m.fq mouse-5m.fq.counts.kmer
+	count-median.py mouse-5m.fq.kh mouse-5m.fq mouse-5m.fq.counts.kmer
 
 mouse-5m.fq.counts.pickle: mouse-5m.fq.map
 	python mapping-cov-3.py trinity-300.fa mouse-5m.fq.map mouse-5m.fq.counts.pickle
@@ -286,7 +284,7 @@ mouse-5m.fq.map.cov: mouse-5m.fq.map
 
 
 mouse-5m.fq.keep: mouse-5m.fq
-	python $(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1e9 mouse-5m.fq
+	normalize-by-median.py -k 20 -N 4 -x 1e9 mouse-5m.fq
 
 mouse-5m.fq.keep.map: mouse-5m.fq.keep
 	bowtie -q -a --best --strata trinity-300 mouse-5m.fq.keep > mouse-5m.fq.keep.map
@@ -301,54 +299,54 @@ transcript-reads.fa.keep.map.cov: transcript-reads.fa.keep.map
 	python mapping-genome-cov-3.py transcripts.fa transcript-reads.fa.keep.map transcript-reads.fa.keep.map.cov
 
 bacteria_mda_lane1.fastq.bz2.keep: bacteria_mda_lane1.fastq.bz2
-	$(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane1.fastq.bz2 --savetable bacteria_mda_lane1.fastq.bz2.normC20k20.kh
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane1.fastq.bz2 --savetable bacteria_mda_lane1.fastq.bz2.normC20k20.kh
 
 bacteria_mda_lane1.fastq.bz2.keep.abundfilt: bacteria_mda_lane1.fastq.bz2.keep
-	$(KHMER)/scripts/filter-abund.py bacteria_mda_lane1.fastq.bz2.normC20k20.kh bacteria_mda_lane1.fastq.bz2.keep
+	filter-abund.py bacteria_mda_lane1.fastq.bz2.normC20k20.kh bacteria_mda_lane1.fastq.bz2.keep
 
 bacteria_mda_lane1.fastq.bz2.keep.abundfilt.keep: bacteria_mda_lane1.fastq.bz2.keep.abundfilt
-	$(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 bacteria_mda_lane1.fastq.bz2.keep.abundfilt
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 bacteria_mda_lane1.fastq.bz2.keep.abundfilt
 
 sar.keep.assembly.fa: bacteria_mda_lane1.fastq.bz2.keep.abundfilt.keep
 	velveth sar.27 27 -short -fastq bacteria_mda_lane1.fastq.bz2.keep.abundfilt.keep
 	velvetg sar.27 -scaffolding no -exp_cov auto -cov_cutoff auto
-	python $(KHMER)/scripts/extract-long-sequences.py -l 1000 sar.27/contigs.fa -o sar.keep.assembly.fa
+	extract-long-sequences.py -l 1000 sar.27/contigs.fa -o sar.keep.assembly.fa
 	#	cp sar.27/contigs.fa sar.keep.assembly.fa
 
 sar_assembly.report: sar324_contigs_lane1.fa sar.keep.assembly.fa
 	dnadiff sar324_contigs_lane1.fa sar.keep.assembly.fa -p sar_assembly
 
 bacteria_mda_lane7.fastq.bz2.keep: bacteria_mda_lane7.fastq.bz2
-	$(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane7.fastq.bz2 --savetable bacteria_mda_lane7.fastq.bz2.normC20k20.kh
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane7.fastq.bz2 --savetable bacteria_mda_lane7.fastq.bz2.normC20k20.kh
 
 bacteria_mda_lane7.fastq.bz2.keep.abundfilt: bacteria_mda_lane7.fastq.bz2.keep
-	$(KHMER)/scripts/filter-abund.py bacteria_mda_lane7.fastq.bz2.normC20k20.kh bacteria_mda_lane7.fastq.bz2.keep
+	filter-abund.py bacteria_mda_lane7.fastq.bz2.normC20k20.kh bacteria_mda_lane7.fastq.bz2.keep
 
 bacteria_mda_lane7.fastq.bz2.keep.abundfilt.keep: bacteria_mda_lane7.fastq.bz2.keep.abundfilt
-	$(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 bacteria_mda_lane7.fastq.bz2.keep.abundfilt
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 bacteria_mda_lane7.fastq.bz2.keep.abundfilt
 
 staph.keep.assembly.fa: bacteria_mda_lane7.fastq.bz2.keep.abundfilt.keep
 	velveth staph.27 27 -short -fastq bacteria_mda_lane7.fastq.bz2.keep.abundfilt.keep
 	velvetg staph.27 -scaffolding no -exp_cov auto -cov_cutoff auto
-	python $(KHMER)/scripts/extract-long-sequences.py -l 1000 staph.27/contigs.fa -o staph.keep.assembly.fa
+	extract-long-sequences.py -l 1000 staph.27/contigs.fa -o staph.keep.assembly.fa
 	#	cp staph.27/contigs.fa staph.keep.assembly.fa
 
 orig_vs_staph_assembly.report: staph-genome.fa staph.keep.assembly.fa
 	dnadiff staph-genome.fa staph.keep.assembly.fa -p orig_vs_staph_assembly
 
 ecoli_ref.fastq.bz2.keep: ecoli_ref.fastq.bz2
-	$(KHMER)/scripts/normalize-by-median.py -R ecoli_ref.report -k 20 -N 4 -x 1.6e9 -C 20 ecoli_ref.fastq.bz2 --savetable ecoli_ref.fastq.bz2.normC20k20.kh
+	normalize-by-median.py -R ecoli_ref.report -k 20 -N 4 -x 1.6e9 -C 20 ecoli_ref.fastq.bz2 --savetable ecoli_ref.fastq.bz2.normC20k20.kh
 
 ecoli_ref.fastq.bz2.keep.abundfilt: ecoli_ref.fastq.bz2.keep
-	$(KHMER)/scripts/filter-abund.py ecoli_ref.fastq.bz2.normC20k20.kh ecoli_ref.fastq.bz2.keep
+	filter-abund.py ecoli_ref.fastq.bz2.normC20k20.kh ecoli_ref.fastq.bz2.keep
 
 ecoli_ref.fastq.bz2.keep.abundfilt.keep: ecoli_ref.fastq.bz2.keep.abundfilt
-	$(KHMER)/scripts/normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 ecoli_ref.fastq.bz2.keep.abundfilt --savetable ecoli_ref.fastq.bz2.normC5k20.kh
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 ecoli_ref.fastq.bz2.keep.abundfilt --savetable ecoli_ref.fastq.bz2.normC5k20.kh
 
 ecoli_ref.fastq.bz2.keep.assembly.fa: ecoli_ref.fastq.bz2.keep.abundfilt.keep
 	velveth ecoli.37 37 -short -fastq ecoli_ref.fastq.bz2.keep.abundfilt.keep
 	velvetg ecoli.37 -scaffolding no -exp_cov auto -cov_cutoff auto
-	python $(KHMER)/scripts/extract-long-sequences.py -l 1000 ecoli.37/contigs.fa -o ecoli_ref.fastq.bz2.keep.assembly.fa
+	extract-long-sequences.py -l 1000 ecoli.37/contigs.fa -o ecoli_ref.fastq.bz2.keep.assembly.fa
 	# 	cp ecoli.37/contigs.fa ecoli_ref.fastq.bz2.keep.assembly.fa
 
 orig_vs_ecoli_assembly.report: ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.assembly.fa
