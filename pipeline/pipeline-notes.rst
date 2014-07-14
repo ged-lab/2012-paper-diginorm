@@ -38,7 +38,6 @@ up for ubuntu::
             default-jre pkg-config libncurses5-dev r-base-core \
                        r-cran-gplots python-matplotlib sysstat
 
-
 We will need pip, ipython, and the ipython notebook.  Make sure we have 
 the latest version of ipython notebook (you need 0.13dev, or later) ::
 
@@ -50,7 +49,7 @@ Now, you'll need to install the version of 'khmer' that the
 paper is currently using.::
  
  easy_install -U setuptools
- pip install khmer==1.1,
+ pip install khmer==1.1
 
 OK, now let's install a few other things: some software, ::
 
