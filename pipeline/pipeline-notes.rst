@@ -14,18 +14,22 @@ and will then compile the paper from scratch using the new figures.
 Starting up a machine and installing software
 ---------------------------------------------
 
-First, start up an EC2 instance with the AWS console 
-mkfs.ext4 /dev/xvdb
-mount -t ext4 /dev/xvdb /mnt/
+First, start up an EC2 instance with the AWS console.
 
-Make sure that port 22 (SSH) and port 80 (HTTP) are open; you'll need
-the first one to log in, and the second one to connect to the ipython
-notebook.
+Make sure you edit your security groups to include port 22 (SSH) and port 
+80 (HTTP) ; you'll need the first one to log in, and the second one to 
+connect to the ipython notebook.
+
+Once you ssh in, you should reformat the instance disks to free up space for 
+running the pipeline.::
+
+ sudo su
+ mkfs.ext4 /dev/xvdb
+ mount -t ext4 /dev/xvdb /mnt/
 
 Just ssh in however you would normally do it. And then set the instance up
 with all of the software we will need::
 
- sudo su
 
  apt-get update
  apt-get --yes install screen git curl gcc make g++ python-dev unzip \
