@@ -1,6 +1,3 @@
-apt-get update
-apt-get -y install bioperl ncbi-blast+
-
 cd /mnt
 curl -O http://www.vicbioinformatics.com/prokka-1.7.tar.gz
 tar xzf prokka-1.7.tar.gz

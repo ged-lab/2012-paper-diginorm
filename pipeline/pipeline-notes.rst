@@ -36,7 +36,8 @@ with all of the software we will need::
             default-jre pkg-config libncurses5-dev r-base-core \
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
-            ipython-notebook
+            ipython-notebook bioperl ncbi-blast+
+
 
 Now, you'll need to install the version of 'khmer' that the
 paper is currently using.::

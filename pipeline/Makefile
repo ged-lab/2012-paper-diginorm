@@ -362,7 +362,7 @@ sar_dn.faa: sar.keep.assembly.fa
 
 staph_dn.faa: staph.keep.assembly.fa
 	/mnt/prokka-1.7/bin/prokka staph.keep.assembly.fa --outdir staph_dn --prefix staph_dn --force
-	cp staph_dn/staph_dn.faa .
+	cp staph_dn/staph_dn.fa .
 
 sar_orig.faa: sar324_contigs_lane1.fa
 	/mnt/prokka-1.7/bin/prokka sar324_contigs_lane1.fa --outdir sar_orig --prefix sar_orig --force
