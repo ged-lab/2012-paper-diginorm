@@ -370,12 +370,15 @@ sar_orig.faa: sar324_contigs_lane1.fa
 
 sar_orig.x.sar_dn: sar_orig.faa sar_dn.faa
 	formatdb -i sar_dn.faa -o T -p T
-	blastall -i sar_orig.faa -d sar_dn.faa -p blastp -e 1e-3 -b 2 -v 2 -a 4 -o sar_orig.x.sar_dn
+	blastp -db sar_dn.fa -query sar_orig.fa -evalue 1e-3 -num_threads 4 \
+		-num_descriptions 2 -num_alignments 2 -out sar_orig.x.sar_dn \
+		-seg yes
 
 sar_dn.x.sar_orig: sar_dn.faa sar_orig.faa
 	formatdb -i sar_orig.faa -o T -p T
-	blastall -i sar_dn.faa -d sar_orig.faa -p blastp -e 1e-3 -b 2 -v 2 -a 4 -o sar_dn.x.sar_orig
-
+	blastp -db sar_orig.faa -query sar_dn.faa -evalue 1e-3 -num_threads 4 \
+		-num_descriptions 2 -num_alignments 2 -out sar_dn.x.sar_orig \
+		-seg yes
 
 ####
 
