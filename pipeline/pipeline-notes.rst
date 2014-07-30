@@ -2,7 +2,7 @@
 Running the diginorm paper script pipeline
 ==========================================
 
-:Date: Jun 25, 2014
+:Date: Jul 30, 2014
 
 Here are some brief notes on how to run the pipeline for our paper on digital
 normalization on an Amazon EC2 rental instance.
@@ -27,8 +27,8 @@ running the pipeline.::
  mkfs.ext4 /dev/xvdb
  mount -t ext4 /dev/xvdb /mnt/
 
-Just ssh in however you would normally do it. And then set the instance up
-with all of the software we will need::
+Now we will set the instance up with many of the software 
+packages we will need::
 
 
  apt-get update
@@ -55,7 +55,7 @@ sizes)::
  make MAXKMERLENGTH=51
  cp velvet? /usr/local/bin
 
-OK, now all your software is installed, hurrah!
+OK, now most of your software is installed, hurrah!
 
 Running the pipeline
 --------------------

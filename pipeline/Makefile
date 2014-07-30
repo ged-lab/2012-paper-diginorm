@@ -1,10 +1,10 @@
-all: genome-reads.fa.kh genome-reads.fa.keep \
+all: genome-reads.fa.ct genome-reads.fa.keep \
 	random.x.genome-reads.fa.overlap \
 	random.x.genome-reads.fa.keep.overlap \
 	random.x.genome-reads.fa.keep.abundfilt.overlap \
 	random.x.genome-reads.fa.keep.abundfilt.keep.overlap \
 	transcript-reads.fa \
-	transcript-reads.fa.kh transcript-reads.fa.keep \
+	transcript-reads.fa.ct transcript-reads.fa.keep \
 	transcripts.x.transcript-reads.fa.overlap \
 	transcripts.x.transcript-reads.fa.keep.overlap \
 	transcripts.x.transcript-reads.fa.keep.abundfilt.overlap \
@@ -49,10 +49,10 @@ copydata:
 clean:
 	rm -f `cat clean-list.txt`
 
-cleankh:
-	rm -f bacteria_mda_lane1.fastq.bz2.normC20k20.kh \
-		bacteria_mda_lane7.fastq.bz2.normC20k20.kh \
-		ecoli_ref.fastq.bz2.normC20k20.kh
+cleanpt:
+	rm -f bacteria_mda_lane1.fastq.bz2.normC20k20.ct \
+		bacteria_mda_lane7.fastq.bz2.normC20k20.ct \
+		ecoli_ref.fastq.bz2.normC20k20.ct
 
 
 calc-r2.txt: calc-r2.py
@@ -70,26 +70,26 @@ genome-reads.fa: random.fa
 transcript-reads.fa: transcripts.fa
 	python make-biased-reads.py transcripts.fa > transcript-reads.fa
 
-read15.ranks: genome-reads.fa.kh
-	python read-kmer-rank-dist.py genome-reads.fa.kh error-reads.fa
+read15.ranks: genome-reads.fa.ct
+	python read-kmer-rank-dist.py genome-reads.fa.ct error-reads.fa
 
-endbias-genome.txt: genome-reads.fa.keep.abundfilt.keep.kh
-	python find-missing-kmers.py genome-reads.fa.keep.abundfilt.keep.kh random.fa endbias-genome.txt
+endbias-genome.txt: genome-reads.fa.keep.abundfilt.keep.ct
+	python find-missing-kmers.py genome-reads.fa.keep.abundfilt.keep.ct random.fa endbias-genome.txt
 
-endbias-transcripts.txt: transcript-reads.fa.keep.abundfilt.keep.kh
-	python find-missing-kmers.py transcript-reads.fa.keep.abundfilt.keep.kh transcripts.fa endbias-transcripts.txt
+endbias-transcripts.txt: transcript-reads.fa.keep.abundfilt.keep.ct
+	python find-missing-kmers.py transcript-reads.fa.keep.abundfilt.keep.ct transcripts.fa endbias-transcripts.txt
 
-genome-reads.fa.kh: genome-reads.fa
-	load-into-counting.py -k 20 -N 4 -x 1e8 genome-reads.fa.kh genome-reads.fa
+genome-reads.fa.ct: genome-reads.fa
+	load-into-counting.py -k 20 -N 4 -x 1e8 genome-reads.fa.ct genome-reads.fa
 
 genome-reads.fa.keep: genome-reads.fa
-	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable genome-reads.fa.keep.kh genome-reads.fa
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable genome-reads.fa.keep.ct genome-reads.fa
 
 genome-reads.fa.keep.abundfilt: genome-reads.fa.keep
-	filter-abund.py genome-reads.fa.keep.kh genome-reads.fa.keep
+	filter-abund.py genome-reads.fa.keep.ct genome-reads.fa.keep
 
 genome-reads.fa.keep.abundfilt.keep: genome-reads.fa.keep.abundfilt
-	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable genome-reads.fa.keep.abundfilt.keep.kh genome-reads.fa.keep.abundfilt
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable genome-reads.fa.keep.abundfilt.keep.ct genome-reads.fa.keep.abundfilt
 
 random.x.genome-reads.fa.overlap: genome-reads.fa
 	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
@@ -107,17 +107,17 @@ random.x.genome-reads.fa.keep.abundfilt.keep.overlap: genome-reads.fa.keep.abund
 	load-graph.py --no-build-tagset -k 20 -N 4 -x 1e8 random.fa random.fa
 	count-overlap.py -k 20 -N 4 -x 1e8 random.fa.pt genome-reads.fa.keep.abundfilt.keep random.x.genome-reads.fa.keep.abundfilt.keep.overlap
 
-transcript-reads.fa.kh: transcript-reads.fa
-	load-into-counting.py -k 20 -N 4 -x 1e8 transcript-reads.fa.kh transcript-reads.fa
+transcript-reads.fa.ct: transcript-reads.fa
+	load-into-counting.py -k 20 -N 4 -x 1e8 transcript-reads.fa.ct transcript-reads.fa
 
 transcript-reads.fa.keep: transcript-reads.fa
-	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable transcript-reads.fa.keep.kh transcript-reads.fa
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 20 --savetable transcript-reads.fa.keep.ct transcript-reads.fa
 
 transcript-reads.fa.keep.abundfilt: transcript-reads.fa.keep
-	filter-abund.py transcript-reads.fa.keep.kh transcript-reads.fa.keep
+	filter-abund.py transcript-reads.fa.keep.ct transcript-reads.fa.keep
 
 transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
-	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable transcript-reads.fa.keep.abundfilt.keep.kh transcript-reads.fa.keep.abundfilt
+	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable transcript-reads.fa.keep.abundfilt.keep.ct transcript-reads.fa.keep.abundfilt
 
 transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
 
@@ -184,8 +184,8 @@ genome-reads.fa.keep.map.cov: genome-reads.fa.keep.map
 ecoliMG1655.1.ebwt:
 	bowtie-build ecoliMG1655.fa ecoliMG1655
 
-ecoli_ref-5m.fastq.kh: ecoli_ref-5m.fastq
-	load-into-counting.py -k 20 -N 4 -x 5e8 ecoli_ref-5m.fastq.kh ecoli_ref-5m.fastq
+ecoli_ref-5m.fastq.ct: ecoli_ref-5m.fastq
+	load-into-counting.py -k 20 -N 4 -x 5e8 ecoli_ref-5m.fastq.ct ecoli_ref-5m.fastq
 
 ecoli_ref-5m.fastq.map: ecoli_ref-5m.fastq ecoliMG1655.1.ebwt
 	bowtie -q -a --best --strata ecoliMG1655 ecoli_ref-5m.fastq > ecoli_ref-5m.fastq.map
@@ -223,8 +223,8 @@ genome-reads.fa.keep.sorted.bam: genome-reads.fa.keep.bam
 	samtools index genome-reads.fa.keep.sorted.bam
 
 
-genome-reads.fa.counts.kmer: genome-reads.fa.kh
-	count-median.py genome-reads.fa.kh genome-reads.fa genome-reads.fa.counts.kmer
+genome-reads.fa.counts.kmer: genome-reads.fa.ct
+	count-median.py genome-reads.fa.ct genome-reads.fa genome-reads.fa.counts.kmer
 
 genome-reads.fa.counts.cmp: genome-reads.fa.counts.pickle  genome-reads.fa.counts.kmer
 	python compare-map-med.py genome-reads.fa.counts.pickle genome-reads.fa.counts.kmer > genome-reads.fa.counts.cmp
@@ -239,8 +239,8 @@ transcript-reads.fa.sorted.bam: transcript-reads.fa.bam
 transcript-reads.fa.counts.pickle: transcript-reads.fa.map
 	python mapping-cov-3.py transcripts.fa transcript-reads.fa.map transcript-reads.fa.counts.pickle
 
-transcript-reads.fa.counts.kmer: transcript-reads.fa.kh
-	count-median.py transcript-reads.fa.kh transcript-reads.fa transcript-reads.fa.counts.kmer
+transcript-reads.fa.counts.kmer: transcript-reads.fa.ct
+	count-median.py transcript-reads.fa.ct transcript-reads.fa transcript-reads.fa.counts.kmer
 
 transcript-reads.fa.counts.cmp: transcript-reads.fa.counts.pickle  transcript-reads.fa.counts.kmer
 	python compare-map-med.py transcript-reads.fa.counts.pickle transcript-reads.fa.counts.kmer > transcript-reads.fa.counts.cmp
@@ -248,8 +248,8 @@ transcript-reads.fa.counts.cmp: transcript-reads.fa.counts.pickle  transcript-re
 ecoli_ref-5m.fastq.counts.pickle: ecoli_ref-5m.fastq.map
 	python mapping-cov-3.py ecoliMG1655.fa ecoli_ref-5m.fastq.map ecoli_ref-5m.fastq.counts.pickle
 
-ecoli_ref-5m.fastq.counts.kmer: ecoli_ref-5m.fastq.kh
-	count-median.py ecoli_ref-5m.fastq.kh ecoli_ref-5m.fastq ecoli_ref-5m.fastq.counts.kmer
+ecoli_ref-5m.fastq.counts.kmer: ecoli_ref-5m.fastq.ct
+	count-median.py ecoli_ref-5m.fastq.ct ecoli_ref-5m.fastq ecoli_ref-5m.fastq.counts.kmer
 
 ecoli_ref-5m.fastq.counts.cmp: ecoli_ref-5m.fastq.counts.pickle ecoli_ref-5m.fastq.counts.kmer
 	python compare-map-med.py ecoli_ref-5m.fastq.counts.pickle ecoli_ref-5m.fastq.counts.kmer > ecoli_ref-5m.fastq.counts.cmp
@@ -262,11 +262,11 @@ trinity-300.1.ebwt: trinity-300.fa
 mouse-5m.fq.map: mouse-5m.fq trinity-300.1.ebwt
 	bowtie -q -a --best --strata trinity-300 mouse-5m.fq > mouse-5m.fq.map
 
-mouse-5m.fq.kh: mouse-5m.fq
-	load-into-counting.py -k 20 -N 4 -x 1e9 mouse-5m.fq.kh mouse-5m.fq
+mouse-5m.fq.ct: mouse-5m.fq
+	load-into-counting.py -k 20 -N 4 -x 1e9 mouse-5m.fq.ct mouse-5m.fq
 
-mouse-5m.fq.counts.kmer: mouse-5m.fq.kh
-	count-median.py mouse-5m.fq.kh mouse-5m.fq mouse-5m.fq.counts.kmer
+mouse-5m.fq.counts.kmer: mouse-5m.fq.ct
+	count-median.py mouse-5m.fq.ct mouse-5m.fq mouse-5m.fq.counts.kmer
 
 mouse-5m.fq.counts.pickle: mouse-5m.fq.map
 	python mapping-cov-3.py trinity-300.fa mouse-5m.fq.map mouse-5m.fq.counts.pickle
@@ -299,10 +299,10 @@ transcript-reads.fa.keep.map.cov: transcript-reads.fa.keep.map
 	python mapping-genome-cov-3.py transcripts.fa transcript-reads.fa.keep.map transcript-reads.fa.keep.map.cov
 
 bacteria_mda_lane1.fastq.bz2.keep: bacteria_mda_lane1.fastq.bz2
-	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane1.fastq.bz2 --savetable bacteria_mda_lane1.fastq.bz2.normC20k20.kh
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane1.fastq.bz2 --savetable bacteria_mda_lane1.fastq.bz2.normC20k20.ct
 
 bacteria_mda_lane1.fastq.bz2.keep.abundfilt: bacteria_mda_lane1.fastq.bz2.keep
-	filter-abund.py bacteria_mda_lane1.fastq.bz2.normC20k20.kh bacteria_mda_lane1.fastq.bz2.keep
+	filter-abund.py bacteria_mda_lane1.fastq.bz2.normC20k20.ct bacteria_mda_lane1.fastq.bz2.keep
 
 bacteria_mda_lane1.fastq.bz2.keep.abundfilt.keep: bacteria_mda_lane1.fastq.bz2.keep.abundfilt
 	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 bacteria_mda_lane1.fastq.bz2.keep.abundfilt
@@ -317,10 +317,10 @@ sar_assembly.report: sar324_contigs_lane1.fa sar.keep.assembly.fa
 	dnadiff sar324_contigs_lane1.fa sar.keep.assembly.fa -p sar_assembly
 
 bacteria_mda_lane7.fastq.bz2.keep: bacteria_mda_lane7.fastq.bz2
-	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane7.fastq.bz2 --savetable bacteria_mda_lane7.fastq.bz2.normC20k20.kh
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 20 bacteria_mda_lane7.fastq.bz2 --savetable bacteria_mda_lane7.fastq.bz2.normC20k20.ct
 
 bacteria_mda_lane7.fastq.bz2.keep.abundfilt: bacteria_mda_lane7.fastq.bz2.keep
-	filter-abund.py bacteria_mda_lane7.fastq.bz2.normC20k20.kh bacteria_mda_lane7.fastq.bz2.keep
+	filter-abund.py bacteria_mda_lane7.fastq.bz2.normC20k20.ct bacteria_mda_lane7.fastq.bz2.keep
 
 bacteria_mda_lane7.fastq.bz2.keep.abundfilt.keep: bacteria_mda_lane7.fastq.bz2.keep.abundfilt
 	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 bacteria_mda_lane7.fastq.bz2.keep.abundfilt
@@ -335,13 +335,13 @@ orig_vs_staph_assembly.report: staph-genome.fa staph.keep.assembly.fa
 	dnadiff staph-genome.fa staph.keep.assembly.fa -p orig_vs_staph_assembly
 
 ecoli_ref.fastq.bz2.keep: ecoli_ref.fastq.bz2
-	normalize-by-median.py -R ecoli_ref.report -k 20 -N 4 -x 1.6e9 -C 20 ecoli_ref.fastq.bz2 --savetable ecoli_ref.fastq.bz2.normC20k20.kh
+	normalize-by-median.py -R ecoli_ref.report -k 20 -N 4 -x 1.6e9 -C 20 ecoli_ref.fastq.bz2 --savetable ecoli_ref.fastq.bz2.normC20k20.ct
 
 ecoli_ref.fastq.bz2.keep.abundfilt: ecoli_ref.fastq.bz2.keep
-	filter-abund.py ecoli_ref.fastq.bz2.normC20k20.kh ecoli_ref.fastq.bz2.keep
+	filter-abund.py ecoli_ref.fastq.bz2.normC20k20.ct ecoli_ref.fastq.bz2.keep
 
 ecoli_ref.fastq.bz2.keep.abundfilt.keep: ecoli_ref.fastq.bz2.keep.abundfilt
-	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 ecoli_ref.fastq.bz2.keep.abundfilt --savetable ecoli_ref.fastq.bz2.normC5k20.kh
+	normalize-by-median.py -k 20 -N 4 -x 1.6e9 -C 5 ecoli_ref.fastq.bz2.keep.abundfilt --savetable ecoli_ref.fastq.bz2.normC5k20.ct
 
 ecoli_ref.fastq.bz2.keep.assembly.fa: ecoli_ref.fastq.bz2.keep.abundfilt.keep
 	velveth ecoli.37 37 -short -fastq ecoli_ref.fastq.bz2.keep.abundfilt.keep
@@ -362,7 +362,7 @@ sar_dn.faa: sar.keep.assembly.fa
 
 staph_dn.faa: staph.keep.assembly.fa
 	/mnt/prokka-1.7/bin/prokka staph.keep.assembly.fa --outdir staph_dn --prefix staph_dn --force
-	cp staph_dn/staph_dn.fa .
+	cp staph_dn/staph_dn.faa .
 
 sar_orig.faa: sar324_contigs_lane1.fa
 	/mnt/prokka-1.7/bin/prokka sar324_contigs_lane1.fa --outdir sar_orig --prefix sar_orig --force
