@@ -2,7 +2,7 @@
 Running the diginorm paper script pipeline
 ==========================================
 
-:Date: Jul 30, 2014
+:Date: Jun 25, 2014
 
 Here are some brief notes on how to run the pipeline for our paper on digital
 normalization on an Amazon EC2 rental instance.
@@ -20,15 +20,12 @@ Make sure you edit your security groups to include port 22 (SSH) and port
 80 (HTTP) ; you'll need the first one to log in, and the second one to 
 connect to the ipython notebook.
 
-Once you ssh in, you should reformat the instance disks to free up space for 
-running the pipeline.::
+Once you ssh in, set yourself up to run as root.::
 
  sudo su
- mkfs.ext4 /dev/xvdb
- mount -t ext4 /dev/xvdb /mnt/
 
-Now we will set the instance up with many of the software 
-packages we will need::
+Just ssh in however you would normally do it. And then set the instance up
+with all of the software we will need::
 
 
  apt-get update
@@ -55,7 +52,7 @@ sizes)::
  make MAXKMERLENGTH=51
  cp velvet? /usr/local/bin
 
-OK, now most of your software is installed, hurrah!
+OK, now all your software is installed, hurrah!
 
 Running the pipeline
 --------------------
@@ -64,7 +61,7 @@ First, check out the source repository and grab the (...large) initial data
 sets::
 
  cd /mnt
- git clone https://github.com/ged-lab/2012-paper-diginorm.git
+ git clone -b ubuntu14.04/v1.1 https://github.com/ged-lab/2012-paper-diginorm.git
  cd 2012-paper-diginorm
 
  curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
@@ -97,7 +94,7 @@ and select 'Run all'.
 
 Now go back to the command line and execute::
 
- mv *.pdf ../
+ mv *.pdf /tmp/*diginorm*pdf ../
  cd ../
  make
 
