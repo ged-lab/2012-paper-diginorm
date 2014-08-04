@@ -94,7 +94,7 @@ and select 'Run all'.
 
 Now go back to the command line and execute::
 
- mv *.pdf /tmp/*diginorm*pdf ../
+ mv *.pdf ../
  cd ../
  make
 
