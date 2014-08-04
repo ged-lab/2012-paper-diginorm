@@ -2,7 +2,7 @@
 Running the diginorm paper script pipeline
 ==========================================
 
-:Date: Jun 25, 2014
+:Date: Aug 4th, 2014
 
 Here are some brief notes on how to run the pipeline for our paper on digital
 normalization on an Amazon EC2 rental instance.
@@ -14,7 +14,9 @@ and will then compile the paper from scratch using the new figures.
 Starting up a machine and installing software
 ---------------------------------------------
 
-First, start up an EC2 instance with the AWS console.
+First, start up an EC2 instance with the AWS console. Be sure to choose an
+Ubuntu 14.04 instance. The c3.2xlarge instance size will work just fine, but
+do not choose a smaller instance than this.
 
 Make sure you edit your security groups to include port 22 (SSH) and port 
 80 (HTTP) ; you'll need the first one to log in, and the second one to 
@@ -24,8 +26,8 @@ Once you ssh in, set yourself up to run as root.::
 
  sudo su
 
-Just ssh in however you would normally do it. And then set the instance up
-with all of the software we will need::
+Next, we are going to set the instance up with many of the software 
+packages we will need::
 
 
  apt-get update
@@ -52,7 +54,7 @@ sizes)::
  make MAXKMERLENGTH=51
  cp velvet? /usr/local/bin
 
-OK, now all your software is installed, hurrah!
+OK, now we have installed almost all of the software we need, hurrah!
 
 Running the pipeline
 --------------------
@@ -61,7 +63,7 @@ First, check out the source repository and grab the (...large) initial data
 sets::
 
  cd /mnt
- git clone -b ubuntu14.04/v1.1 https://github.com/ged-lab/2012-paper-diginorm.git
+ git clone https://github.com/ged-lab/2012-paper-diginorm.git
  cd 2012-paper-diginorm
 
  curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
