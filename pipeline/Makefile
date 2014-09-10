@@ -49,7 +49,7 @@ copydata:
 clean:
 	rm -f `cat clean-list.txt`
 
-cleanpt:
+cleanct:
 	rm -f bacteria_mda_lane1.fastq.bz2.normC20k20.ct \
 		bacteria_mda_lane7.fastq.bz2.normC20k20.ct \
 		ecoli_ref.fastq.bz2.normC20k20.ct
