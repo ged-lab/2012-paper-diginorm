@@ -75,7 +75,7 @@ http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
  cd pipeline
  bash install-prokka.sh
- make KHMER=/usr/local/share/khmer
+ make /usr/local/share/khmer
 
 Once it successfully completes, copy the data over to the ../data/ directory::
 
