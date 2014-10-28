@@ -1,0 +1,103 @@
+==========================================
+Running the diginorm paper script pipeline
+==========================================
+
+:Date: Aug 4th, 2014
+
+Here are some brief notes on how to run the pipeline for our paper on digital
+normalization on an Amazon EC2 rental instance.
+
+The instructions below will reproduce all of the figures in the paper,
+and will then compile the paper from scratch using the new figures.
+
+
+Starting up a machine and installing software
+---------------------------------------------
+
+First, start up an EC2 instance with the AWS console. Be sure to choose an
+Ubuntu 14.04 instance. The c3.2xlarge instance size will work just fine, but
+do not choose a smaller instance than this.
+
+Make sure you edit your security groups to include port 22 (SSH) and port 
+80 (HTTP) ; you'll need the first one to log in, and the second one to 
+connect to the ipython notebook.
+
+Once you ssh in, set yourself up to run as root.::
+
+
+Next, we are going to set the instance up with many of the software 
+packages we will need::
+
+
+ sudo apt-get update
+ sudo apt-get --yes install screen git curl gcc make g++ python-dev unzip \
+            default-jre pkg-config libncurses5-dev r-base-core \
+            r-cran-gplots python-matplotlib sysstat bowtie \
+            texlive-latex-recommended mummer python-pip ipython \
+            ipython-notebook bioperl ncbi-blast+
+
+
+Now, you'll need to install the version of 'khmer' that the
+paper is currently using.::
+ 
+ sudo easy_install -U setuptools
+ sudo pip install khmer==1.1
+
+and Velvet. (We need to do this the old fashioned way to enable large k-mer
+sizes)::
+
+ mkdir ~/bin
+ cd ~/bin
+ curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
+ tar xzf velvet_1.2.10.tgz
+ cd velvet_1.2.10
+ make MAXKMERLENGTH=51
+ cp velvet? /usr/local/bin
+
+OK, now we have installed almost all of the software we need, hurrah!
+
+Running the pipeline
+--------------------
+
+First, check out the source repository and grab the (...large) initial data
+sets::
+
+ git clone https://github.com/ged-lab/2012-paper-diginorm.git
+ cd 2012-paper-diginorm
+
+ curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
+ tar xzf pipeline-data-new.tar.gz
+
+Now go into the pipeline directory and install Prokka & run the pipeline.  This
+will take 24-36 hours, so you might want to do it in 'screen' (see
+http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
+
+ cd pipeline
+ bash install-prokka.sh
+ make /usr/local/share/khmer
+
+Once it successfully completes, copy the data over to the ../data/ directory::
+
+ make copydata
+
+Run the ipython notebook server::
+
+ cd ../notebook
+ ipython notebook --pylab=inline --no-browser --ip=* --port=80 &
+
+Connect into the ipython notebook (it will be running at 'http://<your EC2 hostname>'); if the above command succeeded but you can't connect in, you probably forgot to enable port 80 on your EC2 firewall.
+
+Once you're connected in, select the 'diginorm' notebook (should be the
+only one on the list) and open it.  Once open, go to the 'Cell...' menu
+and select 'Run all'.
+
+(Cool, huh?)
+
+Now go back to the command line and execute::
+
+ mv *.pdf ../
+ cd ../
+ make
+
+and voila, 'diginorm.pdf' will contain the paper with the figures you just
+created.
