@@ -60,7 +60,13 @@ Running the pipeline
 --------------------
 
 First, check out the source repository and grab the (...large) initial data
-sets::
+sets
+
+On EC2, you need read/write permissions in /mnt::
+ sudo chown ubuntu /mnt
+ chmod ua+x /mnt/
+
+ cd /mnt
 
  git clone https://github.com/ged-lab/2012-paper-diginorm.git
  cd 2012-paper-diginorm
