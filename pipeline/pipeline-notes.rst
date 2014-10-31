@@ -58,12 +58,17 @@ OK, now we have installed almost all of the software we need, hurrah!
 
 Running the pipeline
 --------------------
+If running on EC2::
+ mkdir /mnt/bin
+ ln -s /mnt/bin ~/
 
 First, check out the source repository and grab the (...large) initial data
 sets::
 
+ echo "export PATH=${PATH}:~/bin" >> ~/.bashrc
+
  cd /mnt
- git clone https://github.com/ged-lab/2012-paper-diginorm.git
+ git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch ubuntu14.04/v1.1
  cd 2012-paper-diginorm
 
  curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
@@ -73,9 +78,10 @@ Now go into the pipeline directory and install Prokka & run the pipeline.  This
 will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
+
  cd pipeline
  bash install-prokka.sh
- make /usr/local/share/khmer
+ make 
 
 Once it successfully completes, copy the data over to the ../data/ directory::
 
