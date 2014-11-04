@@ -24,13 +24,14 @@ connect to the ipython notebook.
 
 Once you ssh in, set yourself up to run as root.::
 
+ sudo su
 
 Next, we are going to set the instance up with many of the software 
 packages we will need::
 
 
- sudo apt-get update
- sudo apt-get --yes install screen git curl gcc make g++ python-dev unzip \
+ apt-get update
+ apt-get --yes install screen git curl gcc make g++ python-dev unzip \
             default-jre pkg-config libncurses5-dev r-base-core \
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
@@ -40,21 +41,18 @@ packages we will need::
 Now, you'll need to install the version of 'khmer' that the
 paper is currently using.::
  
- sudo easy_install -U setuptools
- sudo pip install khmer==1.1
+ easy_install -U setuptools
+ pip install khmer==1.1
 
 and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
 
- mkdir ~/bin
- echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
- source ${HOME}/.bashrc
- cd ~/bin
+ cd /root
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
  cd velvet_1.2.10
  make MAXKMERLENGTH=51
- cp velvet? ${HOME}/bin
+ cp velvet? /usr/local/bin
 
 OK, now we have installed almost all of the software we need, hurrah!
 
@@ -62,14 +60,9 @@ Running the pipeline
 --------------------
 
 First, check out the source repository and grab the (...large) initial data
-sets
-
-On EC2, you need read/write permissions in /mnt::
- sudo chown ubuntu /mnt
- chmod ua+x /mnt/
+sets::
 
  cd /mnt
-
  git clone https://github.com/ged-lab/2012-paper-diginorm.git
  cd 2012-paper-diginorm
 
@@ -82,7 +75,7 @@ http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
  cd pipeline
  bash install-prokka.sh
- make 
+ make /usr/local/share/khmer
 
 Once it successfully completes, copy the data over to the ../data/ directory::
 
