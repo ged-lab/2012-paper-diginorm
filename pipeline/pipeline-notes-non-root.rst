@@ -47,12 +47,14 @@ and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
 
  mkdir ~/bin
+ echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
+ source ${HOME}/.bashrc
  cd ~/bin
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
  cd velvet_1.2.10
  make MAXKMERLENGTH=51
- cp velvet? /usr/local/bin
+ cp velvet? ${HOME}/bin
 
 OK, now we have installed almost all of the software we need, hurrah!
 
@@ -80,7 +82,7 @@ http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
  cd pipeline
  bash install-prokka.sh
- make /usr/local/share/khmer
+ make 
 
 Once it successfully completes, copy the data over to the ../data/ directory::
 
