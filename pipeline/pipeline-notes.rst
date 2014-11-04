@@ -47,6 +47,8 @@ and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
 
  mkdir ~/bin
+ echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
+ source ${HOME}/.bashrc
  cd ~/bin
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
