@@ -36,20 +36,24 @@ packages we will need::
             texlive-latex-recommended mummer python-pip ipython \
             ipython-notebook bioperl ncbi-blast+
 
+ echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
+ source ${HOME}/.bashrc
 
 Now, you'll need to install the version of 'khmer' that the
 paper is currently using.::
  
  sudo easy_install -U setuptools
- sudo pip install khmer==1.1
+ pip install --user khmer==1.1
+
+If running on EC2::
+ sudo  mkdir /mnt/bin
+ sudo chown ubuntu /mnt/bin
+ ln -s /mnt/bin ${HOME}/
 
 and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
 
- mkdir ~/bin
- echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
- source ${HOME}/.bashrc
- cd ~/bin
+ cd ${HOME}/bin/
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
  cd velvet_1.2.10
@@ -60,16 +64,10 @@ OK, now we have installed almost all of the software we need, hurrah!
 
 Running the pipeline
 --------------------
-If running on EC2::
- mkdir /mnt/bin
- ln -s /mnt/bin ${HOME}/
 
 First, check out the source repository and grab the (...large) initial data
-sets
+sets::
 
-On EC2, you need read/write permissions in /mnt::
- sudo chown ubuntu /mnt
- chmod ua+x /mnt/
 
  cd /mnt
 
