@@ -13,7 +13,7 @@ curl -O http://mbio-serv2.mbioekol.lu.se/ARAGORN/Downloads/aragorn1.2.36.tgz
 tar -xvzf aragorn1.2.36.tgz
 cd aragorn1.2.36/
 gcc -O3 -ffast-math -finline-functions -o aragorn aragorn1.2.36.c
-cp aragorn /usr/local/bin
+cp aragorn ${HOME}/bin
 
 cd /mnt
 curl -O http://prodigal.googlecode.com/files/prodigal.v2_60.tar.gz
