@@ -370,7 +370,7 @@ sar_orig.faa: sar324_contigs_lane1.fa
 
 sar_orig.x.sar_dn: sar_orig.faa sar_dn.faa
 	formatdb -i sar_dn.faa -o T -p T
-	blastp -db sar_dn.fa -query sar_orig.faa -evalue 1e-3 -num_threads 4 \
+	blastp -db sar_dn.faa -query sar_orig.faa -evalue 1e-3 -num_threads 4 \
 		-num_descriptions 2 -num_alignments 2 -out sar_orig.x.sar_dn \
 		-seg yes
 
