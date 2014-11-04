@@ -13,21 +13,21 @@ curl -O http://mbio-serv2.mbioekol.lu.se/ARAGORN/Downloads/aragorn1.2.36.tgz
 tar -xvzf aragorn1.2.36.tgz
 cd aragorn1.2.36/
 gcc -O3 -ffast-math -finline-functions -o aragorn aragorn1.2.36.c
-cp aragorn ~/bin
+cp aragorn ${HOME}/bin/
 
 cd /mnt
 curl -O http://prodigal.googlecode.com/files/prodigal.v2_60.tar.gz
 tar xzf prodigal.v2_60.tar.gz
 cd prodigal.v2_60/
 make
-cp prodigal ~/bin
+cp prodigal ${HOME}/bin/
 
 cd /mnt
 curl -O ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux64.tbl2asn.gz
 gunzip linux64.tbl2asn.gz
 mv linux64.tbl2asn tbl2asn
 chmod +x tbl2asn
-cp tbl2asn ~/bin
+cp tbl2asn ${HOME}/bin/
 
 cd /mnt
 curl -O http://ftp.gnu.org/gnu/parallel/parallel-20130822.tar.bz2

@@ -60,6 +60,9 @@ OK, now we have installed almost all of the software we need, hurrah!
 
 Running the pipeline
 --------------------
+If running on EC2::
+ mkdir /mnt/bin
+ ln -s /mnt/bin ${HOME}/
 
 First, check out the source repository and grab the (...large) initial data
 sets
@@ -70,7 +73,7 @@ On EC2, you need read/write permissions in /mnt::
 
  cd /mnt
 
- git clone https://github.com/ged-lab/2012-paper-diginorm.git
+ git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch ubuntu14.04/v1.1
  cd 2012-paper-diginorm
 
  curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
