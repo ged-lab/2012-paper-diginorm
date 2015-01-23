@@ -22,19 +22,35 @@ Make sure you edit your security groups to include port 22 (SSH) and port
 80 (HTTP) ; you'll need the first one to log in, and the second one to 
 connect to the ipython notebook.
 
-Once you ssh in, set yourself up to run as root.::
-
+If you are running on RackSpace, we will need to add extra space for data by formating and mounting a drive.
+Formating/Mounting Drive::
+  mkfs -t ext4 /dev/xvde1
+  mkdir /mnt/data
+  mount /dev/xvde1 /mnt/data/ -t ext4
+  # To make a regular user 
+  adduser non-root # TODO find quick setup instructions
 
 Next, we are going to set the instance up with many of the software 
-packages we will need::
-
+packages we will need. You will need root permissions to install these::
 
  sudo apt-get update
- sudo apt-get --yes install screen git curl gcc make g++ python-dev unzip \
+ sudo apt-get --yes install screen git curl gcc make g++ python2.7-dev unzip \
             default-jre pkg-config libncurses5-dev r-base-core \
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
-            ipython-notebook bioperl ncbi-blast+
+            ipython-notebook bioperl ncbi-blast+ \
+            python-virtualenv 
+
+Non-EC2::
+  mkdir ~/bin
+
+If running on EC2::
+ sudo  mkdir /mnt/bin
+ sudo chown ubuntu /mnt/bin
+ ln -s /mnt/bin ${HOME}/bin
+
+Now that we have our root privledge-installs out of the way, lets add 
+~/bin to our path::
 
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
@@ -42,13 +58,10 @@ packages we will need::
 Now, you'll need to install the version of 'khmer' that the
 paper is currently using.::
  
- sudo easy_install -U setuptools
- pip install --user khmer==1.1
-
-If running on EC2::
- sudo  mkdir /mnt/bin
- sudo chown ubuntu /mnt/bin
- ln -s /mnt/bin ${HOME}/
+ virtualenv venv
+ source venv/bin/activate
+ easy_install -U setuptools
+ pip install khmer==1.1
 
 and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
