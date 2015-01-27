@@ -40,8 +40,8 @@ packages we will need. You will need root permissions to install these::
             default-jre pkg-config libncurses5-dev r-base-core \
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
-            ipython-notebook bioperl ncbi-blast+ \
-            python-virtualenv 
+            ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
+            ncbi-tools-bin prodigal infernal aragorn parallel
 
 If running on EC2::
  sudo  mkdir /mnt/bin
@@ -51,11 +51,11 @@ If running on EC2::
 
 Non-EC2::
   mkdir ~/bin/
-  chmod -R u+rw o+rw /mnt/data
+  chmod -R o+rw /mnt/data
 
 
 Now that we have our root privledge-installs out of the way, lets add 
-~/bin to our path::
+``~/bin`` to our path::
 
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
@@ -102,6 +102,7 @@ Now go into the pipeline directory and install Prokka & run the pipeline.  This
 will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
+  
  cd pipeline
  bash install-prokka.sh
  make 
