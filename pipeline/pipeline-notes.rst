@@ -96,13 +96,17 @@ sets::
  git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch ubuntu14.04/v1.1
  cd 2012-paper-diginorm
 
- curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz tar xzf pipeline-data-new.tar.gz
+ curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz 
+ tar xzf pipeline-data-new.tar.gz
 
 Now go into the pipeline directory and install Prokka & run the pipeline.  This
 will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
   
+ mkdir ~/src
+ mkdir ~/src/prodigal
+ mkdir ~/src/prokka
  cd pipeline
  bash install-prokka.sh
  make 
