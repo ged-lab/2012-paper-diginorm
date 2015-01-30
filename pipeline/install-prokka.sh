@@ -1,6 +1,6 @@
 cd ${HOME}/src/prodigal
-curl -O http://prodigal.googlecode.com/files/prodigal.v2_60.tar.gz
-tar xzf prodigal.v2_60.tar.gz
+curl -OL https://github.com/hyattpd/Prodigal/archive/v2.60.tar.gz
+tar xzf v2.60.tar.gz
 cd prodigal.v2_60/
 make
 
