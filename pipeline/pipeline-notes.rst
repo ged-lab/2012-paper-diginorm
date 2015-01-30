@@ -93,7 +93,7 @@ sets::
 
  cd /mnt/data
 
- git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch ubuntu14.04/v1.1
+ git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch non-root-install
  cd 2012-paper-diginorm
 
  curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz 
