@@ -43,6 +43,14 @@ packages we will need. You will need root permissions to install these::
             ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
             ncbi-tools-bin prodigal infernal aragorn parallel
 
+Now, with root privledges, you'll need to install the version of 'khmer' that the
+paper is currently using.::
+ 
+ virtualenv venv
+ source venv/bin/activate
+ easy_install -U setuptools
+ pip install khmer==1.1
+
 If running on EC2::
  sudo  mkdir /mnt/bin
  sudo chown ubuntu /mnt/bin
@@ -60,13 +68,6 @@ Now that we have our root privledge-installs out of the way, lets add
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
 
-Now, you'll need to install the version of 'khmer' that the
-paper is currently using.::
- 
- virtualenv venv
- source venv/bin/activate
- easy_install -U setuptools
- pip install khmer==1.1
 
 and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
@@ -104,10 +105,14 @@ will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
   
+ source /mnt/venv/bin/activate #when does this need to be done for non-root?
  mkdir ~/src
  mkdir ~/src/prodigal
  mkdir ~/src/prokka
  cd pipeline
+ make clean # can I do this? I had problems with the pipeline complaining about:
+   #ERROR: Input file genome-reads.fa is empty; exiting.
+   #make: *** [genome-reads.fa.ct] Error 1
  bash install-prokka.sh
  make 
 
@@ -118,6 +123,9 @@ Once it successfully completes, copy the data over to the ../data/ directory::
 Run the ipython notebook server::
 
  cd ../notebook
+
+Now via root::
+
  ipython notebook --pylab=inline --no-browser --ip=* --port=80 &
 
 Connect into the ipython notebook (it will be running at 'http://<your EC2 hostname>'); if the above command succeeded but you can't connect in, you probably forgot to enable port 80 on your EC2 firewall.
