@@ -32,6 +32,10 @@ Formating/Mounting Drive::
   # To make a regular user 
   adduser non-root # TODO find quick setup instructions
 
+Additionally, if you are on RackSpace, you will need to disable the firewall so that you can run the iPython notebook.::
+
+  sudo service ufw stop
+
 Next, we are going to set the instance up with many of the software 
 packages we will need. You will need root permissions to install these::
 
@@ -43,6 +47,9 @@ packages we will need. You will need root permissions to install these::
             ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
             ncbi-tools-bin prodigal infernal aragorn parallel
 
+You'll also need this because reasons::
+
+
 Now, with root privledges, you'll need to install the version of 'khmer' that the
 paper is currently using.::
  
@@ -50,6 +57,7 @@ paper is currently using.::
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
+ pip install --upgrade numpy
 
 If running on EC2::
  sudo  mkdir /mnt/bin
@@ -58,7 +66,7 @@ If running on EC2::
  chmod -R u+rw o+rw /mnt
 
 Non-EC2::
-  mkdir ~/bin/
+  mkdir -p ~/bin/
   chmod -R o+rw /mnt/data
 
 
@@ -72,7 +80,8 @@ Now that we have our root privledge-installs out of the way, lets add
 and Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
 
- cd ${HOME}/bin/
+ mkdir -p ${HOME}/src/velvet
+ cd ${HOME}/src/velvet
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
  cd velvet_1.2.10
@@ -105,14 +114,10 @@ will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
   
- source /mnt/venv/bin/activate #when does this need to be done for non-root?
- mkdir ~/src
- mkdir ~/src/prodigal
- mkdir ~/src/prokka
+ mkdir ~/src mkdir -p ~/src/prodigal
+ mkdir -p ~/src/prokka
  cd pipeline
  make clean # can I do this? I had problems with the pipeline complaining about:
-   #ERROR: Input file genome-reads.fa is empty; exiting.
-   #make: *** [genome-reads.fa.ct] Error 1
  bash install-prokka.sh
  make 
 
