@@ -148,16 +148,16 @@ samfoo:
 	samtools faidx transcripts.fa
 
 genome-reads.fa.map: random.1.ebwt
-	bowtie -f -a --best --strata random genome-reads.fa > genome-reads.fa.map
+	bowtie -f --all --best --strata random genome-reads.fa > genome-reads.fa.map
 
 genome-reads.fa.sam:
-	bowtie -S -f random genome-reads.fa > genome-reads.fa.sam
+	bowtie --sam -f random genome-reads.fa > genome-reads.fa.sam
 
 transcript-reads.fa.sam:
-	bowtie -S -f transcripts transcript-reads.fa > transcript-reads.fa.sam
+	bowtie --sam -f transcripts transcript-reads.fa > transcript-reads.fa.sam
 
 transcript-reads.fa.map: transcripts.1.ebwt
-	bowtie -f -a --best --strata transcripts transcript-reads.fa > transcript-reads.fa.map
+	bowtie -f --all --best --strata transcripts transcript-reads.fa > transcript-reads.fa.map
 
 genome-reads.fa.bam: genome-reads.fa.sam
 	samtools view -bt random.fa.fai genome-reads.fa.sam > genome-reads.fa.bam
@@ -170,10 +170,10 @@ genome-reads.fa.counts.pickle: genome-reads.fa.map
 	python mapping-cov-3.py random.fa genome-reads.fa.map genome-reads.fa.counts.pickle
 
 genome-reads.fa.keep.map: random.1.ebwt
-	bowtie -f -a --best --strata random genome-reads.fa.keep > genome-reads.fa.keep.map
+	bowtie -f --all --best --strata random genome-reads.fa.keep > genome-reads.fa.keep.map
 
 genome-reads.fa.keep.abundfilt.keep.map:
-	bowtie -f -a --best --strata random genome-reads.fa.keep.abundfilt.keep > genome-reads.fa.keep.abundfilt.keep.map
+	bowtie -f --all --best --strata random genome-reads.fa.keep.abundfilt.keep > genome-reads.fa.keep.abundfilt.keep.map
 
 genome-reads.fa.map.cov: genome-reads.fa.map
 	python mapping-genome-cov-3.py random.fa genome-reads.fa.map genome-reads.fa.map.cov
@@ -188,13 +188,13 @@ ecoli_ref-5m.fastq.ct: ecoli_ref-5m.fastq
 	load-into-counting.py -k 20 -N 4 -x 5e8 ecoli_ref-5m.fastq.ct ecoli_ref-5m.fastq
 
 ecoli_ref-5m.fastq.map: ecoli_ref-5m.fastq ecoliMG1655.1.ebwt
-	bowtie -q -a --best --strata ecoliMG1655 ecoli_ref-5m.fastq > ecoli_ref-5m.fastq.map
+	bowtie -q --all --best --strata ecoliMG1655 ecoli_ref-5m.fastq > ecoli_ref-5m.fastq.map
 
 ecoli_ref-5m.fastq.map.cov: ecoli_ref-5m.fastq.map
 	python mapping-genome-cov-3.py ecoliMG1655.fa ecoli_ref-5m.fastq.map ecoli_ref-5m.fastq.map.cov
 
 ecoli_ref-5m.fastq.sam:
-	bowtie -S -q -a --best --strata ecoliMG1655 ecoli_ref-5m.fastq > ecoli_ref-5m.fastq.sam
+	bowtie -S -q --all --best --strata ecoliMG1655 ecoli_ref-5m.fastq > ecoli_ref-5m.fastq.sam
 
 ecoli_ref-5m.fastq.bam: ecoli_ref-5m.fastq.sam
 	samtools view -bt random.fa.fai ecoli_ref-5m.fastq.sam > ecoli_ref-5m.fastq.bam
@@ -207,13 +207,13 @@ ecoli_ref-5m.fastq.sorted.bam: ecoli_ref-5m.fastq.bam
 
 
 ecoli_ref.fastq.bz2.keep.map: ecoli_ref.fastq.bz2.keep
-	bowtie -q -a --best --strata ecoliMG1655 ecoli_ref.fastq.bz2.keep > ecoli_ref.fastq.bz2.keep.map
+	bowtie -q --all --best --strata ecoliMG1655 ecoli_ref.fastq.bz2.keep > ecoli_ref.fastq.bz2.keep.map
 
 ecoli_ref.fastq.bz2.keep.map.cov: ecoli_ref.fastq.bz2.keep.map
 	python mapping-genome-cov-3.py ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.map ecoli_ref.fastq.bz2.keep.map.cov
 
 genome-reads.fa.keep.sam:
-	bowtie -S -f random genome-reads.fa.keep > genome-reads.fa.keep.sam
+	bowtie --sam -f random genome-reads.fa.keep > genome-reads.fa.keep.sam
 
 genome-reads.fa.keep.bam: genome-reads.fa.keep.sam
 	samtools view -bt random.fa.fai genome-reads.fa.keep.sam > genome-reads.fa.keep.bam
@@ -260,7 +260,7 @@ trinity-300.1.ebwt: trinity-300.fa
 	bowtie-build trinity-300.fa trinity-300
 
 mouse-5m.fq.map: mouse-5m.fq trinity-300.1.ebwt
-	bowtie -q -a --best --strata trinity-300 mouse-5m.fq > mouse-5m.fq.map
+	bowtie -q --all --best --strata trinity-300 mouse-5m.fq > mouse-5m.fq.map
 
 mouse-5m.fq.ct: mouse-5m.fq
 	load-into-counting.py -k 20 -N 4 -x 1e9 mouse-5m.fq.ct mouse-5m.fq
@@ -287,13 +287,13 @@ mouse-5m.fq.keep: mouse-5m.fq
 	normalize-by-median.py -k 20 -N 4 -x 1e9 mouse-5m.fq
 
 mouse-5m.fq.keep.map: mouse-5m.fq.keep
-	bowtie -q -a --best --strata trinity-300 mouse-5m.fq.keep > mouse-5m.fq.keep.map
+	bowtie -q --all --best --strata trinity-300 mouse-5m.fq.keep > mouse-5m.fq.keep.map
 
 mouse-5m.fq.keep.map.cov: mouse-5m.fq.keep.map
 	python mapping-genome-cov-3.py trinity-300.fa mouse-5m.fq.keep.map mouse-5m.fq.keep.map.cov
 
 transcript-reads.fa.keep.map:
-	bowtie -f -a --best --strata transcripts transcript-reads.fa.keep > transcript-reads.fa.keep.map
+	bowtie -f --all --best --strata transcripts transcript-reads.fa.keep > transcript-reads.fa.keep.map
 
 transcript-reads.fa.keep.map.cov: transcript-reads.fa.keep.map
 	python mapping-genome-cov-3.py transcripts.fa transcript-reads.fa.keep.map transcript-reads.fa.keep.map.cov
@@ -350,7 +350,7 @@ ecoli_ref.fastq.bz2.keep.assembly.fa: ecoli_ref.fastq.bz2.keep.abundfilt.keep
 	# 	cp ecoli.37/contigs.fa ecoli_ref.fastq.bz2.keep.assembly.fa
 
 orig_vs_ecoli_assembly.report: ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.assembly.fa
-	dnadiff ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.assembly.fa -p orig_vs_ecoli_assembly
+	dnadiff ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.assembly.fa -prefix orig_vs_ecoli_assembly
 
 ecoli_dn.faa: ecoli_ref.fastq.bz2.keep.assembly.fa
 	/mnt/prokka-1.7/bin/prokka ecoli_ref.fastq.bz2.keep.assembly.fa --outdir ecoli_dn --prefix ecoli_dn --force
@@ -389,22 +389,22 @@ staph.1.ebwt: staph-genome.fa
 	bowtie-build staph-genome.fa staph
 
 staph.rawreads.map.gz: staph.1.ebwt bacteria_mda_lane7.fastq.bz2
-	bunzip2 -c bacteria_mda_lane7.fastq.bz2 | bowtie -p 8 -q -a --best --strata staph - | gzip -9c > staph.rawreads.map.gz
+	bunzip2 -c bacteria_mda_lane7.fastq.bz2 | bowtie --threads 8 -q --all --best --strata staph - | gzip -9c > staph.rawreads.map.gz
 
 ecoli.rawreads.map.gz: ecoliMG1655.1.ebwt  ecoli_ref.fastq.bz2
-	bunzip2 -c ecoli_ref.fastq.bz2 | bowtie -p 8 -q -a --best --strata ecoliMG1655 - | gzip -9c > ecoli.rawreads.map.gz
+	bunzip2 -c ecoli_ref.fastq.bz2 | bowtie --threads 8 -q --all --best --strata ecoliMG1655 - | gzip -9c > ecoli.rawreads.map.gz
 
 sar324.rawreads.map.gz: sar324.1.ebwt bacteria_mda_lane1.fastq.bz2
-	bunzip2 -c bacteria_mda_lane1.fastq.bz2 | bowtie -p 8 -q -a --best --strata sar324 - | gzip -9c > sar324.rawreads.map.gz
+	bunzip2 -c bacteria_mda_lane1.fastq.bz2 | bowtie --threads 8 -q --all --best --strata sar324 - | gzip -9c > sar324.rawreads.map.gz
 
 staph.keep.rawreads.map.gz: staph.1.ebwt bacteria_mda_lane7.fastq.bz2.keep
-	cat bacteria_mda_lane7.fastq.bz2.keep | bowtie -p 8 -q -a --best --strata staph - | gzip -9c > staph.keep.rawreads.map.gz
+	cat bacteria_mda_lane7.fastq.bz2.keep | bowtie --threads 8 -q --all --best --strata staph - | gzip -9c > staph.keep.rawreads.map.gz
 
 ecoli.keep.rawreads.map.gz: ecoliMG1655.1.ebwt  ecoli_ref.fastq.bz2.keep
-	cat ecoli_ref.fastq.bz2.keep | bowtie -p 8 -q -a --best --strata ecoliMG1655 - | gzip -9c > ecoli.keep.rawreads.map.gz
+	cat ecoli_ref.fastq.bz2.keep | bowtie --threads 8 -q --all --best --strata ecoliMG1655 - | gzip -9c > ecoli.keep.rawreads.map.gz
 
 sar324.keep.rawreads.map.gz: sar324.1.ebwt bacteria_mda_lane1.fastq.bz2.keep
-	cat bacteria_mda_lane1.fastq.bz2.keep | bowtie -p 8 -q -a --best --strata sar324 - | gzip -9c > sar324.keep.rawreads.map.gz
+	cat bacteria_mda_lane1.fastq.bz2.keep | bowtie --threads 8 -q --all --best --strata sar324 - | gzip -9c > sar324.keep.rawreads.map.gz
 
 ecoli.keep.rawreads.map.gz.cov: ecoli.keep.rawreads.map.gz
 	python mapping-genome-cov-3.py ecoliMG1655.fa ecoli.keep.rawreads.map.gz ecoli.keep.rawreads.map.gz.cov
