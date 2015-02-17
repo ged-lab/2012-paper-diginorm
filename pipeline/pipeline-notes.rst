@@ -14,28 +14,49 @@ and will then compile the paper from scratch using the new figures.
 Starting up a machine and installing software
 ---------------------------------------------
 
-First, start up an EC2 instance with the AWS console. Be sure to choose an
+If you are going to run this pipeline on a cloud machine, we recommend Amazon EC2 or RackSpace.
+These notes will give specific instructions to both of those machine types.
+
+EC2
+--------------------------------------------
+When starting an EC2 instance with the AWS console. Be sure to choose an
 Ubuntu 14.04 instance. The c3.2xlarge instance size will work just fine, but
 do not choose a smaller instance than this.
 
 Make sure you edit your security groups to include port 22 (SSH) and port 
-80 (HTTP) ; you'll need the first one to log in, and the second one to 
+8080 ; you'll need the first one to log in, and the second one to 
 connect to the ipython notebook.
 
-We tested this script on a RackSpace instance with specifications::
-  #TODO get rackspace specifications
-If you are running on RackSpace, we may need to add extra space for data by formating and mounting a drive.
-Formating/Mounting Drive::
-  mkfs -t ext4 /dev/xvde1
-  mkdir /mnt/data
-  mount /dev/xvde1 /mnt/data/ -t ext4
-  # To make a regular user 
-  adduser non-root # TODO find quick setup instructions
+If you need to create a new user, you can do so with::
 
+ useradd -m -d /home/user <your_user_name>
+
+We will also want to link /mnt/bin directory to our home/bin directory::
+ ln -s /mnt/bin ${HOME}/bin
+
+
+RackSpace
+____________________________________________
 Additionally, if you are on RackSpace, you will need to disable the firewall so that you can run the iPython notebook.::
 
   sudo service ufw stop
 
+If you need to create a new user, you can do so with::
+
+ useradd -m -d /home/user <your_user_name>
+
+
+Depending on the instance you chose, we may need to add extra space for data by formating and mounting a drive.
+Formating/Mounting Drive::
+
+  mkfs -t ext4 /dev/xvde1
+  mount /dev/xvde1 /home/user -t ext4
+
+
+
+
+All Non-Root
+--------------------------------------------
 Next, we are going to set the instance up with many of the software 
 packages we will need. You will need root permissions to install these::
 
@@ -47,27 +68,17 @@ packages we will need. You will need root permissions to install these::
             ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
             ncbi-tools-bin prodigal infernal aragorn parallel
 
-You'll also need this because reasons::
-
 
 Now, with root privledges, you'll need to install the version of 'khmer' that the
 paper is currently using.::
- 
+
+ cd ${HOME}
+ mkdir -p bin
  virtualenv venv
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
  pip install --upgrade numpy
-
-If running on EC2::
- sudo  mkdir /mnt/bin
- sudo chown ubuntu /mnt/bin
- ln -s /mnt/bin ${HOME}/bin
- chmod -R u+rw o+rw /mnt
-
-Non-EC2::
-  mkdir -p ~/bin/
-  chmod -R o+rw /mnt/data
 
 
 Now that we have our root privledge-installs out of the way, lets add 
@@ -77,7 +88,7 @@ Now that we have our root privledge-installs out of the way, lets add
  source ${HOME}/.bashrc
 
 
-and Velvet. (We need to do this the old fashioned way to enable large k-mer
+We need to install Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
 
  mkdir -p ${HOME}/src/velvet
@@ -88,7 +99,7 @@ sizes)::
  make MAXKMERLENGTH=51
  cp velvet? ${HOME}/bin
 
-OK, now we have installed almost all of the software we need, hurrah!
+OK, now we have installed almost all of the software dependencies we need, hurrah!
 
 Running the pipeline
 --------------------
@@ -97,11 +108,7 @@ First, check out the source repository and grab the (...large) initial data
 sets::
 
 
- cd /mnt
-
-(If on RackSpace)::
-
- cd /mnt/data
+ cd ${HOME}
 
  git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch non-root-install
  cd 2012-paper-diginorm
@@ -113,9 +120,7 @@ Now go into the pipeline directory and install Prokka & run the pipeline.  This
 will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
-  
- mkdir ~/src mkdir -p ~/src/prodigal
- mkdir -p ~/src/prokka
+
  cd pipeline
  make clean # can I do this? I had problems with the pipeline complaining about:
  bash install-prokka.sh
@@ -128,12 +133,10 @@ Once it successfully completes, copy the data over to the ../data/ directory::
 Run the ipython notebook server::
 
  cd ../notebook
+ ipython notebook --pylab=inline --no-browser --ip=* --port=8080 &
 
-Now via root::
 
- ipython notebook --pylab=inline --no-browser --ip=* --port=80 &
-
-Connect into the ipython notebook (it will be running at 'http://<your EC2 hostname>'); if the above command succeeded but you can't connect in, you probably forgot to enable port 80 on your EC2 firewall.
+Connect into the ipython notebook (it will be running at 'http://<your EC2 hostname>:8080'); if the above command succeeded but you can't connect in, you probably forgot to enable port 8080 on your EC2 firewall.
 
 Once you're connected in, select the 'diginorm' notebook (should be the
 only one on the list) and open it.  Once open, go to the 'Cell...' menu
