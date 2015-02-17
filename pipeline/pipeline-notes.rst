@@ -107,21 +107,15 @@ Running the pipeline
 First, check out the source repository and grab the (...large) initial data
 sets::
 
-
  cd ${HOME}
 
  git clone https://github.com/ged-lab/2012-paper-diginorm.git --branch non-root-install
- cd 2012-paper-diginorm
-
- curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz 
- tar xzf pipeline-data-new.tar.gz
 
 Now go into the pipeline directory and install Prokka & run the pipeline.  This
 will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
-
- cd pipeline
+ cd 2012-paper-diginorm/pipeline
  make clean # can I do this? I had problems with the pipeline complaining about:
  bash install-prokka.sh
  make 

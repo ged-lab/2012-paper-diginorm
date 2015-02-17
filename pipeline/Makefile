@@ -1,3 +1,6 @@
+#default to setting number of threads to number of processors
+THREADS != nproc
+
 all: genome-reads.fa.ct genome-reads.fa.keep \
 	random.x.genome-reads.fa.overlap \
 	random.x.genome-reads.fa.keep.overlap \
@@ -88,7 +91,7 @@ genome-reads.fa.keep: genome-reads.fa
 genome-reads.fa.keep.abundfilt: genome-reads.fa.keep
 	filter-abund.py genome-reads.fa.keep.ct genome-reads.fa.keep
 
-genome-reads.fa.keep.abundfilt.keep: genome-reads.fa.keep.abundfilt
+genome-reads.fa.keep.abundfilt.keep genome-reads.fa.keep.abundfilt.keep.ct: genome-reads.fa.keep.abundfilt
 	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable genome-reads.fa.keep.abundfilt.keep.ct genome-reads.fa.keep.abundfilt
 
 random.x.genome-reads.fa.overlap: genome-reads.fa
@@ -116,7 +119,7 @@ transcript-reads.fa.keep: transcript-reads.fa
 transcript-reads.fa.keep.abundfilt: transcript-reads.fa.keep
 	filter-abund.py transcript-reads.fa.keep.ct transcript-reads.fa.keep
 
-transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
+transcript-reads.fa.keep.abundfilt.keep transcript-reads.fa.keep.abundfilt.keep.ct: transcript-reads.fa.keep.abundfilt
 	normalize-by-median.py -k 20 -N 4 -x 1e8 -C 5 --savetable transcript-reads.fa.keep.abundfilt.keep.ct transcript-reads.fa.keep.abundfilt
 
 transcript-reads.fa.keep.abundfilt.keep: transcript-reads.fa.keep.abundfilt
@@ -389,22 +392,22 @@ staph.1.ebwt: staph-genome.fa
 	bowtie-build staph-genome.fa staph
 
 staph.rawreads.map.gz: staph.1.ebwt bacteria_mda_lane7.fastq.bz2
-	bunzip2 -c bacteria_mda_lane7.fastq.bz2 | bowtie --threads 8 -q --all --best --strata staph - | gzip -9c > staph.rawreads.map.gz
+	bunzip2 -c bacteria_mda_lane7.fastq.bz2 | bowtie --threads ${THREADS} -q --all --best --strata staph - | gzip -9c > staph.rawreads.map.gz
 
 ecoli.rawreads.map.gz: ecoliMG1655.1.ebwt  ecoli_ref.fastq.bz2
-	bunzip2 -c ecoli_ref.fastq.bz2 | bowtie --threads 8 -q --all --best --strata ecoliMG1655 - | gzip -9c > ecoli.rawreads.map.gz
+	bunzip2 -c ecoli_ref.fastq.bz2 | bowtie --threads ${THREADS} -q --all --best --strata ecoliMG1655 - | gzip -9c > ecoli.rawreads.map.gz
 
 sar324.rawreads.map.gz: sar324.1.ebwt bacteria_mda_lane1.fastq.bz2
-	bunzip2 -c bacteria_mda_lane1.fastq.bz2 | bowtie --threads 8 -q --all --best --strata sar324 - | gzip -9c > sar324.rawreads.map.gz
+	bunzip2 -c bacteria_mda_lane1.fastq.bz2 | bowtie --threads ${THREADS} -q --all --best --strata sar324 - | gzip -9c > sar324.rawreads.map.gz
 
 staph.keep.rawreads.map.gz: staph.1.ebwt bacteria_mda_lane7.fastq.bz2.keep
-	cat bacteria_mda_lane7.fastq.bz2.keep | bowtie --threads 8 -q --all --best --strata staph - | gzip -9c > staph.keep.rawreads.map.gz
+	cat bacteria_mda_lane7.fastq.bz2.keep | bowtie --threads ${THREADS} -q --all --best --strata staph - | gzip -9c > staph.keep.rawreads.map.gz
 
 ecoli.keep.rawreads.map.gz: ecoliMG1655.1.ebwt  ecoli_ref.fastq.bz2.keep
-	cat ecoli_ref.fastq.bz2.keep | bowtie --threads 8 -q --all --best --strata ecoliMG1655 - | gzip -9c > ecoli.keep.rawreads.map.gz
+	cat ecoli_ref.fastq.bz2.keep | bowtie --threads ${THREADS} -q --all --best --strata ecoliMG1655 - | gzip -9c > ecoli.keep.rawreads.map.gz
 
 sar324.keep.rawreads.map.gz: sar324.1.ebwt bacteria_mda_lane1.fastq.bz2.keep
-	cat bacteria_mda_lane1.fastq.bz2.keep | bowtie --threads 8 -q --all --best --strata sar324 - | gzip -9c > sar324.keep.rawreads.map.gz
+	cat bacteria_mda_lane1.fastq.bz2.keep | bowtie --threads ${THREADS} -q --all --best --strata sar324 - | gzip -9c > sar324.keep.rawreads.map.gz
 
 ecoli.keep.rawreads.map.gz.cov: ecoli.keep.rawreads.map.gz
 	python mapping-genome-cov-3.py ecoliMG1655.fa ecoli.keep.rawreads.map.gz ecoli.keep.rawreads.map.gz.cov
@@ -423,3 +426,9 @@ sar324.rawreads.map.gz.cov: sar324.rawreads.map.gz
 
 staph.rawreads.map.gz.cov: staph.rawreads.map.gz
 	python mapping-genome-cov-3.py staph-genome.fa staph.rawreads.map.gz staph.rawreads.map.gz.cov
+
+../pipeline-data-new.tar.gz:
+	cd ..; curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
+
+mapping.txt bacteria_mda_lane1.fastq.bz2 ecoliMG1655.fa trinity-300.fa sar324_contigs_lane1.fa staph-genome.fa mouse-5m.fq bacteria_mda_lane7.fastq.bz2 ecoli_ref-5m.fastq ecoli_ref.fastq.bz2: ../pipeline-data-new.tar.gz
+	cd..; tar xzf pipeline-data-new.tar.gz
