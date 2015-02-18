@@ -8,5 +8,5 @@ make
 
 mkdir -p ${HOME}/src/prokka
 cd ${HOME}/src/prokka
-curl -O http://www.vicbioinformatics.com/prokka-1.7.tar.gz
-tar xzf prokka-1.7.tar.gz
+curl -O https://github.com/Victorian-Bioinformatics-Consortium/prokka/archive/v1.11.tar.gz
+tar xzf prokka-*.tar.gz
