@@ -43,7 +43,7 @@ Additionally, if you are on RackSpace, you will need to disable the firewall so 
 
 If you need to create a new user, you can do so with::
 
- useradd -m -d /home/user <your_user_name>
+ adduser <your_user_name>
 
 
 Depending on the instance you chose, we may need to add extra space for data by formating and mounting a drive.
@@ -69,7 +69,12 @@ packages we will need. You will need root permissions to install these::
             ncbi-tools-bin prodigal infernal aragorn parallel
 
 
-Now, with root privledges, you'll need to install the version of 'khmer' that the
+
+All Non-Root
+--------------------------------------------
+Once you have completed all of the previous commands that require root permissions,
+go ahead and login as you normally would.
+Now you'll need to install the version of 'khmer' that the
 paper is currently using.::
 
  cd ${HOME}
@@ -81,11 +86,7 @@ paper is currently using.::
  pip install --upgrade numpy
 
 
-All Non-Root
---------------------------------------------
-Once you have completed all of the previous commands that require root permissions,
-go ahead and login as you normally would.
-Now we can go ahead and add the ``~/bin`` to our path::
+Now we can go ahead and add ``~/bin`` to our path::
 
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
@@ -95,6 +96,7 @@ We need to install Velvet. (We need to do this the old fashioned way to enable l
 sizes)::
 
  mkdir -p ${HOME}/src/velvet
+ mkdir -p ${HOME}/bin
  cd ${HOME}/src/velvet
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
