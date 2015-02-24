@@ -55,7 +55,7 @@ Formating/Mounting Drive::
 
 
 
-All Non-Root
+Root Installs
 --------------------------------------------
 Next, we are going to set the instance up with many of the software 
 packages we will need. You will need root permissions to install these::
@@ -81,8 +81,11 @@ paper is currently using.::
  pip install --upgrade numpy
 
 
-Now that we have our root privledge-installs out of the way, lets add 
-``~/bin`` to our path::
+All Non-Root
+--------------------------------------------
+Once you have completed all of the previous commands that require root permissions,
+go ahead and login as you normally would.
+Now we can go ahead and add the ``~/bin`` to our path::
 
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
