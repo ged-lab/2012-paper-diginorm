@@ -43,7 +43,7 @@ Additionally, if you are on RackSpace, you will need to disable the firewall so 
 
 If you need to create a new user, you can do so with::
 
- useradd -m -d /home/user <your_user_name>
+ adduser <your_user_name>
 
 
 Depending on the instance you chose, we may need to add extra space for data by formating and mounting a drive.
@@ -84,8 +84,7 @@ paper is currently using.::
 All Non-Root
 --------------------------------------------
 Once you have completed all of the previous commands that require root permissions,
-go ahead and login as you normally would.
-Now we can go ahead and add the ``~/bin`` to our path::
+go ahead and login as you normally would, and we can go ahead and add ``~/bin`` to our path::
 
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
@@ -95,6 +94,7 @@ We need to install Velvet. (We need to do this the old fashioned way to enable l
 sizes)::
 
  mkdir -p ${HOME}/src/velvet
+ mkdir -p ${HOME}/bin
  cd ${HOME}/src/velvet
  curl -O http://www.ebi.ac.uk/~zerbino/velvet/velvet_1.2.10.tgz
  tar xzf velvet_1.2.10.tgz
