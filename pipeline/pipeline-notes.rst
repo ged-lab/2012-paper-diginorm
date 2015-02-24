@@ -69,7 +69,12 @@ packages we will need. You will need root permissions to install these::
             ncbi-tools-bin prodigal infernal aragorn parallel
 
 
-Now, with root privledges, you'll need to install the version of 'khmer' that the
+
+All Non-Root
+--------------------------------------------
+Once you have completed all of the previous commands that require root permissions,
+go ahead and login as you normally would.
+Now you'll need to install the version of 'khmer' that the
 paper is currently using.::
 
  cd ${HOME}
@@ -81,10 +86,7 @@ paper is currently using.::
  pip install --upgrade numpy
 
 
-All Non-Root
---------------------------------------------
-Once you have completed all of the previous commands that require root permissions,
-go ahead and login as you normally would, and we can go ahead and add ``~/bin`` to our path::
+Now we can go ahead and add ``~/bin`` to our path::
 
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
