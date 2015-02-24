@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ex
 mkdir -p ${HOME}/src/prodigal
 cd ${HOME}/src/prodigal
 curl -OL https://github.com/hyattpd/Prodigal/archive/v2.60.tar.gz
@@ -8,5 +8,5 @@ make
 
 mkdir -p ${HOME}/src/prokka
 cd ${HOME}/src/prokka
-curl -O https://github.com/Victorian-Bioinformatics-Consortium/prokka/archive/v1.11.tar.gz
+curl -OL https://github.com/Victorian-Bioinformatics-Consortium/prokka/archive/v1.11.tar.gz
 tar xzf prokka-*.tar.gz
