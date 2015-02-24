@@ -431,4 +431,4 @@ staph.rawreads.map.gz.cov: staph.rawreads.map.gz
 	cd ..; curl -O https://s3.amazonaws.com/public.ged.msu.edu/2012-paper-diginorm/pipeline-data-new.tar.gz
 
 mapping.txt bacteria_mda_lane1.fastq.bz2 ecoliMG1655.fa trinity-300.fa sar324_contigs_lane1.fa staph-genome.fa mouse-5m.fq bacteria_mda_lane7.fastq.bz2 ecoli_ref-5m.fastq ecoli_ref.fastq.bz2: ../pipeline-data-new.tar.gz
-	cd..; tar xzf pipeline-data-new.tar.gz
+	cd ..; tar xzf pipeline-data-new.tar.gz
