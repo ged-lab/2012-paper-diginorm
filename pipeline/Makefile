@@ -356,19 +356,19 @@ orig_vs_ecoli_assembly.report: ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.assembly.
 	dnadiff ecoliMG1655.fa ecoli_ref.fastq.bz2.keep.assembly.fa -prefix orig_vs_ecoli_assembly
 
 ecoli_dn.faa: ecoli_ref.fastq.bz2.keep.assembly.fa
-	${HOME}/src/prokka-*/bin/prokka ecoli_ref.fastq.bz2.keep.assembly.fa --outdir ecoli_dn --prefix ecoli_dn --force
+	${HOME}/src/prokka/prokka-* ecoli_ref.fastq.bz2.keep.assembly.fa --outdir ecoli_dn --prefix ecoli_dn --force
 	cp ecoli_dn/ecoli_dn.faa .
 
 sar_dn.faa: sar.keep.assembly.fa
-	${HOME}/src/prokka-*/bin/prokka sar.keep.assembly.fa --outdir sar_dn --prefix sar_dn --force
+	${HOME}/src/prokka/prokka-* sar.keep.assembly.fa --outdir sar_dn --prefix sar_dn --force
 	cp sar_dn/sar_dn.faa .
 
 staph_dn.faa: staph.keep.assembly.fa
-	${HOME}/src/prokka-*/bin/prokka staph.keep.assembly.fa --outdir staph_dn --prefix staph_dn --force
+	${HOME}/src/prokka/prokka-* staph.keep.assembly.fa --outdir staph_dn --prefix staph_dn --force
 	cp staph_dn/staph_dn.faa .
 
 sar_orig.faa: sar324_contigs_lane1.fa
-	${HOME}/src/prokka-*/bin/prokka sar324_contigs_lane1.fa --outdir sar_orig --prefix sar_orig --force
+	${HOME}/src/prokka/prokka-* sar324_contigs_lane1.fa --outdir sar_orig --prefix sar_orig --force
 	cp sar_orig/sar_orig.faa .
 
 sar_orig.x.sar_dn: sar_orig.faa sar_dn.faa
