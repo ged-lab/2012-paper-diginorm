@@ -50,7 +50,7 @@ Depending on the instance you chose, we may need to add extra space for data by 
 Formating/Mounting Drive::
 
   mkfs -t ext4 /dev/xvde1
-  mount /dev/xvde1 /home/user -t ext4
+  mount /dev/xvde1 /home/<your_user_name> -t ext4
 
 
 
@@ -66,14 +66,10 @@ packages we will need. You will need root permissions to install these::
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
             ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
-            ncbi-tools-bin prodigal infernal aragorn parallel
+            ncbi-tools-bin infernal aragorn parallel
 
 
 
-All Non-Root
---------------------------------------------
-Once you have completed all of the previous commands that require root permissions,
-go ahead and login as you normally would.
 Now you'll need to install the version of 'khmer' that the
 paper is currently using.::
 
@@ -86,8 +82,13 @@ paper is currently using.::
  pip install --upgrade numpy
 
 
+All Non-Root
+--------------------------------------------
+Once you have completed all of the previous commands that require root permissions,
+go ahead and login as you normally would.
 Now we can go ahead and add ``~/bin`` to our path::
 
+ source venv/bin/activate
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
 
@@ -121,7 +122,6 @@ will take 24-36 hours, so you might want to do it in 'screen' (see
 http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
 
  cd 2012-paper-diginorm/pipeline
- make clean # can I do this? I had problems with the pipeline complaining about:
  bash install-prokka.sh
  make 
 
