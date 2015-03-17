@@ -89,7 +89,7 @@ Once you have completed all of the previous commands that require root permissio
 go ahead and login as you normally would.
 Now we can go ahead and add ``~/bin`` to our path::
 
- cd $/home/<your_user_name>
+ cd ${HOME}
  source venv/bin/activate
 
 
