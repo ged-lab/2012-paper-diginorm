@@ -79,6 +79,8 @@ paper is currently using.::
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
+ echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
+ source ${HOME}/.bashrc
 
 
 All Non-Root
@@ -87,10 +89,8 @@ Once you have completed all of the previous commands that require root permissio
 go ahead and login as you normally would.
 Now we can go ahead and add ``~/bin`` to our path::
 
- cd ${HOME}
+ cd $/home/<your_user_name>
  source venv/bin/activate
- echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
- source ${HOME}/.bashrc
 
 
 We need to install Velvet. (We need to do this the old fashioned way to enable large k-mer
