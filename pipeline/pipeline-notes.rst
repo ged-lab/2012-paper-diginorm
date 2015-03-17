@@ -66,7 +66,7 @@ packages we will need. You will need root permissions to install these::
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
             ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
-            ncbi-tools-bin infernal aragorn parallel
+            ncbi-tools-bin infernal aragorn parallel python-numpy
 
 
 
@@ -79,7 +79,6 @@ paper is currently using.::
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
- pip install --upgrade numpy
 
 
 All Non-Root
@@ -88,6 +87,7 @@ Once you have completed all of the previous commands that require root permissio
 go ahead and login as you normally would.
 Now we can go ahead and add ``~/bin`` to our path::
 
+ cd ${HOME}
  source venv/bin/activate
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
