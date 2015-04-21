@@ -29,10 +29,10 @@ connect to the ipython notebook.
 
 If you need to create a new user, you can do so with::
 
- useradd -m -d /home/user <your_user_name>
+  sudo useradd -m -d /home/user <your_user_name>
 
 We will also want to link /mnt/bin directory to our home/bin directory::
- ln -s /mnt/bin ${HOME}/bin
+  sudo ln -s /mnt/bin ${HOME}/bin
 
 
 RackSpace
@@ -43,7 +43,7 @@ Additionally, if you are on RackSpace, you will need to disable the firewall so 
 
 If you need to create a new user, you can do so with::
 
- adduser <your_user_name>
+  sudo adduser <your_user_name>
 
 
 Depending on the instance you chose, we may need to add extra space for data by formating and mounting a drive.
@@ -54,8 +54,7 @@ Formating/Mounting Drive::
 
 Then we want to set the user directory to the home path, and grant permissions to the user::
 
-  HOME=/home/<your_user_name>
-  chown -R <your_user_name> ${HOME}
+  sudo chown -R <your_user_name> /home/<your_user_name>
 
 
 Root Installs
@@ -84,6 +83,11 @@ paper is currently using.::
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
+
+We also need to install screed::
+
+ git clone git://github.com/ged-lab/screed.git
+ python setup.py install
 
 
 All Non-Root
