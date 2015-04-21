@@ -66,21 +66,21 @@ packages we will need. You will need root permissions to install these::
             r-cran-gplots python-matplotlib sysstat bowtie \
             texlive-latex-recommended mummer python-pip ipython \
             ipython-notebook bioperl ncbi-blast+ python-virtualenv hmmer \
-            ncbi-tools-bin infernal aragorn parallel python-numpy
+            ncbi-tools-bin infernal aragorn parallel python-numpy prodigal
 
 
 
 Now you'll need to install the version of 'khmer' that the
 paper is currently using.::
 
+ echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
+ source ${HOME}/.bashrc
  cd ${HOME}
  mkdir -p bin
  virtualenv venv
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
- echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
- source ${HOME}/.bashrc
 
 
 All Non-Root
