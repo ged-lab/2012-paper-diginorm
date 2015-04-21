@@ -52,7 +52,10 @@ Formating/Mounting Drive::
   mkfs -t ext4 /dev/xvde1
   mount /dev/xvde1 /home/<your_user_name> -t ext4
 
+Then we want to set the user directory to the home path, and grant permissions to the user::
 
+  HOME=/home/<your_user_name>
+  chown -R <your_user_name> ${HOME}
 
 
 Root Installs
