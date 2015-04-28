@@ -1,5 +1,5 @@
 #default to setting number of threads to number of processors
-THREADS != nproc
+THREADS != $(shell nproc)
 
 all: genome-reads.fa.ct genome-reads.fa.keep \
 	random.x.genome-reads.fa.overlap \
