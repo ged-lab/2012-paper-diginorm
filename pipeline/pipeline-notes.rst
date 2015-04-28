@@ -72,6 +72,16 @@ packages we will need. You will need root permissions to install these::
 
 
 
+All Non-Root
+--------------------------------------------
+Once you have completed all of the previous commands that require root permissions,
+go ahead and login as you normally would.
+Now we can go ahead and add ``~/bin`` to our path::
+
+ cd ${HOME}
+ source venv/bin/activate
+
+
 Now you'll need to install the version of 'khmer' that the
 paper is currently using.::
 
@@ -88,16 +98,6 @@ We also need to install screed::
 
  git clone git://github.com/ged-lab/screed.git
  python setup.py install
-
-
-All Non-Root
---------------------------------------------
-Once you have completed all of the previous commands that require root permissions,
-go ahead and login as you normally would.
-Now we can go ahead and add ``~/bin`` to our path::
-
- cd ${HOME}
- source venv/bin/activate
 
 
 We need to install Velvet. (We need to do this the old fashioned way to enable large k-mer
