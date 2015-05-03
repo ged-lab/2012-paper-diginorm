@@ -17,7 +17,7 @@ Starting up a machine and installing software
 If you are going to run this pipeline on a cloud machine, we recommend Amazon EC2 or RackSpace.
 These notes will give specific instructions to both of those machine types.
 
-EC2
+Amazon EC2 setup
 --------------------------------------------
 When starting an EC2 instance with the AWS console. Be sure to choose an
 Ubuntu 14.04 instance. The c3.2xlarge instance size will work just fine, but
@@ -29,33 +29,35 @@ connect to the ipython notebook.
 
 If you need to create a new user, you can do so with::
 
-  sudo useradd -m -d /home/user <your_user_name>
+  sudo adduser non-root
 
 We will also want to link /mnt/bin directory to our home/bin directory::
   sudo ln -s /mnt/bin ${HOME}/bin
 
 
-RackSpace
+RackSpace Setup
 ____________________________________________
 Additionally, if you are on RackSpace, you will need to disable the firewall so that you can run the iPython notebook.::
 
   sudo service ufw stop
-
-If you need to create a new user, you can do so with::
-
-  sudo adduser <your_user_name>
 
 
 Depending on the instance you chose, we may need to add extra space for data by formating and mounting a drive.
 Formating/Mounting Drive::
 
   mkfs -t ext4 /dev/xvde1
-  mount /dev/xvde1 /home/<your_user_name> -t ext4
+  mount /dev/xvde1 /home/ -t ext4
 
-Then we want to set the user directory to the home path, and grant permissions to the user::
+Next we will create a user, use either non-root, or any other username::
 
-  sudo chown -R <your_user_name> /home/<your_user_name>
+  sudo adduser non-root
 
+Then we have to add this user to to the `sudo` group::
+
+  sudo adduser non-root sudo
+
+Now, we can log in as our new user::
+  su --login non-root
 
 Root Installs
 --------------------------------------------
@@ -72,33 +74,23 @@ packages we will need. You will need root permissions to install these::
 
 
 
-All Non-Root
+User land installs
 --------------------------------------------
-Once you have completed all of the previous commands that require root permissions,
-go ahead and login as you normally would.
 Now we can go ahead and add ``~/bin`` to our path::
 
  cd ${HOME}
- source venv/bin/activate
-
-
-Now you'll need to install the version of 'khmer' that the
-paper is currently using.::
-
  echo 'export PATH=${PATH}:${HOME}/bin' >> ${HOME}/.bashrc
  source ${HOME}/.bashrc
  cd ${HOME}
  mkdir -p bin
+
+Now you'll need to install the version of 'khmer' that the
+paper is currently using.::
+
  virtualenv venv
  source venv/bin/activate
  easy_install -U setuptools
  pip install khmer==1.1
-
-We also need to install screed::
-
- git clone git://github.com/ged-lab/screed.git
- python setup.py install
-
 
 We need to install Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
