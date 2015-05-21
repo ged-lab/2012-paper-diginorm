@@ -57,6 +57,7 @@ Then we have to add this user to to the `sudo` group::
   sudo adduser non-root sudo
 
 Now, we can log in as our new user::
+
   su --login non-root
 
 Root Installs
@@ -89,8 +90,8 @@ paper is currently using.::
 
  virtualenv venv
  source venv/bin/activate
- easy_install -U setuptools
- pip install khmer==1.1
+ sudo easy_install -U setuptools
+ sudo pip install khmer==1.1
 
 We need to install Velvet. (We need to do this the old fashioned way to enable large k-mer
 sizes)::
@@ -118,7 +119,11 @@ sets::
 
 Now go into the pipeline directory and install Prokka & run the pipeline.  This
 will take 24-36 hours, so you might want to do it in 'screen' (see
-http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html). ::
+http://ged.msu.edu/angus/tutorials-2011/unix_long_jobs.html).
+
+NOTE: if you are trying to use screen and recieve an error 
+such as ``Cannot open your terminal '/dev/pts/0'``, you will need to disconnect from the
+ssh session, and login as your user (``ssh non-root@....``)::
 
  cd 2012-paper-diginorm/pipeline
  bash install-prokka.sh
